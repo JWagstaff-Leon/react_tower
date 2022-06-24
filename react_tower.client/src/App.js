@@ -6,8 +6,8 @@ import AccountPage from "./components/pages/AccountPage.jsx";
 function App() {
   return (
     <main>
-        <div>
-            <span>The Tower</span>
+        <div className="bg-dark">
+            <span className="text-light">The Tower</span>
         </div>
         <BrowserRouter>
             <Routes>

@@ -64,4 +64,30 @@ main
     object-fit: cover;
 }
 
+.ted>div
+{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    background-color: hsla(45, 1%, 40%, 0.50);
+    backdrop-filter: blur(20px);
+}
+
+.ted div>img
+{
+    height: 30rem;
+}
+
+/* #endregion */
+
+/* #region utility */
+
+.text-shadow
+{
+    filter: drop-shadow(0px 2px 1px black);
+}
+
 /* #endregion */

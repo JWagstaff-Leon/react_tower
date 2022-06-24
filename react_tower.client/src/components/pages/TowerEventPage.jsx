@@ -18,7 +18,7 @@ function TowerEventPage() {
     }, [params.id]);
 
     return (
-        <div className="container-fluid">
+        <div className="container-fluid bg-dark">
             <TowerEventDetails towerEvent={towerEvent}/>
             <Attendees />
             <Comments />
