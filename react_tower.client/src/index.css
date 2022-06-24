@@ -1,4 +1,4 @@
-/* General Layout */
+/* #region General Layout */
 body
 {
   display: flex;
@@ -12,7 +12,9 @@ main
     max-height: 100vh;
 }
 
-/* Tower Event Card */
+/* #endregion */
+
+/* #region Tower Event Card */
 .tec
 {
     height: 18rem;
@@ -45,3 +47,21 @@ main
 {
     margin: 0;
 }
+
+/* #endregion */
+
+/* #region Tower Event Details */
+
+.ted
+{
+    height: 35rem;
+}
+
+.ted>img
+{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* #endregion */

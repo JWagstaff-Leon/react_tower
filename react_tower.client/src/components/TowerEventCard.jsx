@@ -9,8 +9,6 @@ const TowerEventCard = ({ towerEvent }) => {
         return <h2 className="text-light fs-6 align-self-end"><span className=" fw-bold text-info fs-5">{towerEvent.capacity}</span> spot{towerEvent.capacity === 1 ? "" : "s"} left</h2>
     })(); //casually call an anonymous function the same line it's declared
 
-    console.log("Capacity elem",capacityElem);
-
     return (
         <Link to={`/event/${towerEvent.id}`} title={`Open event page for ${towerEvent.name}`}>
             <div className="tec my-2 p-2">
