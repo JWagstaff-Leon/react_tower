@@ -1,13 +1,47 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* General Layout */
+body
+{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+main
+{
+    flex-grow: 1;
+    max-height: 100vh;
+}
+
+/* Tower Event Card */
+.tec
+{
+    height: 18rem;
+}
+
+.tec>div
+{
+    height: 100%;
+    width: 100%;
+}
+
+.tec>div>img
+{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.tec>div>div
+{
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: hsla(192, 0%, 20%, 0.65);
+    backdrop-filter: blur(20px);
+    max-width: 100%
+}
+
+.tec h1, .tec h2
+{
+    margin: 0;
 }

@@ -1,4 +1,3 @@
-import { AppState } from "../AppState.js";
 import { logger } from "../utils/Logger.js";
 import { api } from "./AxiosService.js";
 
@@ -115,27 +114,25 @@ class TowerEventsService
 {
     async getAll()
     {
-        // this.clearAll();
         const res = await api.get("api/events");
         res.data.forEach(v => v.startDate = new Date(v.startDate));
         res.data.forEach(v => v.startNums = _parseDate(v.startDate));
         res.data.forEach(v => v.dateString = _formatDate(v.startDate));
         res.data.forEach(v => v.timeString = _formatTime(v.startDate));
         logger.log("TowerEventsService > getAll response", res.data);
-        AppState.towerEvents = res.data;
+        return res.data;
     }
 
     
     async getById(id)
     {
-        // this.clearActive();
         const res = await api.get("api/events/" + id);
         res.data.startDate = new Date(res.data.startDate);
         res.data.startNums = _parseDate(res.data.startDate);
         res.data.dateString = _formatDate(res.data.startDate);
         res.data.timeString = _formatTime(res.data.startDate);
         logger.log("TowerEventsService > getById response", res.data);
-        AppState.activeTowerEvent = res.data;
+        return res.data;
     }
 
     async create(data)
@@ -146,8 +143,7 @@ class TowerEventsService
         res.data.dateString = _formatDate(res.data.startDate);
         res.data.timeString = _formatTime(res.data.startDate);
         logger.log("TowerEventsService > create response", res.data);
-        AppState.towerEvents.push(res.data);
-        return res.data.id;
+        return res.data;
     }
     
     async edit(id, data)
@@ -158,7 +154,7 @@ class TowerEventsService
         res.data.dateString = _formatDate(res.data.startDate);
         res.data.timeString = _formatTime(res.data.startDate);
         logger.log("TowerEventsService > edit response", res.data);
-        AppState.activeTowerEvent = res.data;
+        return res.data;
     }
     
     async cancelEvent(id)
@@ -168,18 +164,8 @@ class TowerEventsService
         res.data.startNums = _parseDate(res.data.startDate);
         res.data.dateString = _formatDate(res.data.startDate);
         res.data.timeString = _formatTime(res.data.startDate);
-        AppState.activeTowerEvent = res.data;
         logger.log("TowerEventsService > cancel response", res.data);
-    }
-    
-    clearActive()
-    {
-        AppState.activeTowerEvent = null;
-    }
-
-    clearAll()
-    {
-        AppState.towerEvents = [];
+        return res.data;
     }
 }
 
