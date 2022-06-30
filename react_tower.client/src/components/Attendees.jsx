@@ -8,7 +8,7 @@ const Attendees = ({ attendees }) => {
                     <span className="text-light">See who's attending</span>
                     <div className="bg-secondary px-2 py-1 rounded">
                         {attendees?.map(attendee => {
-                            return <img src={attendee.picture} alt={`Profile picture of ${attendee.name}`} className="attendee-picture mx-1 my-1" title={`${attendee.name} is attending`}/>
+                            return <img src={attendee.picture} alt={`Profile picture of ${attendee.name}`} className="attendee-picture mx-1 my-1" title={`${attendee.name} is attending`} key={attendee.id} />
                         })}
                     </div>
                 </div>

@@ -118,6 +118,18 @@ main
 
 /* #endregion */
 
+/* #region Comments */
+
+.com img
+{
+    height: 5.5rem;
+    width: 5.5rem;
+    border-radius: 50%;
+}
+
+/* #endregion */
+
+
 /* #region utility */
 
 .text-shadow
