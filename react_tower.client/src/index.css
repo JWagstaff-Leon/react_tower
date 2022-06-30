@@ -6,10 +6,22 @@ body
   height: 100vh;
 }
 
+#root
+{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
 main
 {
     flex-grow: 1;
-    max-height: 100vh;
+}
+
+.scrollable
+{
+    height: 100vh;
+    overflow-y: scroll;
 }
 
 /* #endregion */
@@ -79,6 +91,8 @@ main
 .ted div>img
 {
     height: 30rem;
+    max-width: 100%;
+    object-fit: cover;
 }
 
 /* #endregion */

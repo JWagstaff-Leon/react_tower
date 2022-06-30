@@ -16,7 +16,7 @@ class HomePage extends Component {
     render() {
         const { towerEvents } = this.state;
         return (
-            <div className="container-fluid bg-dark">
+            <div className="container bg-dark">
                 <div className="row">
                     <span>This is the home page</span>
                 </div>

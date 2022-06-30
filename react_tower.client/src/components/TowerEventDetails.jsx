@@ -25,8 +25,8 @@ const TowerEventDetails = ({ towerEvent }) => {
                                         <span className="fs-4 text-light text-shadow">{towerEvent?.dateString}</span>
                                     </div>
                                     <div className="d-flex justify-content-between mt-2">
-                                        <span className="fs-4 text-light text-shadow">{towerEvent?.location}</span>
-                                        <span className="fs-4 text-light text-shadow">Starting at {towerEvent?.timeString}</span>
+                                        <span className="fs-4 text-info text-shadow">{towerEvent?.location}</span>
+                                        <span className="fs-4 text-info text-shadow">Starting at {towerEvent?.timeString}</span>
                                     </div>
                                     <div className="flex-grow-1 mt-4">
                                         <p className="text-light fs-5 text-shadow">{towerEvent?.description}</p>
