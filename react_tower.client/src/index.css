@@ -97,6 +97,27 @@ main
 
 /* #endregion */
 
+/* #region Attendees */
+
+.atn img
+{
+    height: 3.5rem;
+    width: 3.5rem;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 0px solid black;
+}
+
+.atn img:hover
+{
+    transition: all .1s linear;
+    transform: scale(2);
+    border-radius: 30%;
+    border: 1px solid black;
+}
+
+/* #endregion */
+
 /* #region utility */
 
 .text-shadow
