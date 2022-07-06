@@ -127,8 +127,13 @@ main
     border-radius: 50%;
 }
 
-/* #endregion */
+.com textarea
+{
+    height: 5rem;
+    resize: none;
+}
 
+/* #endregion */
 
 /* #region utility */
 

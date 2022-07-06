@@ -29,7 +29,9 @@ function TowerEventPage() {
     return (
         <div className="container bg-dark">
             <TowerEventDetails towerEvent={towerEvent}/>
-            <Attendees attendees={attendees} />
+            { !towerEvent?.
+// @ts-ignore
+            isCanceled && <Attendees attendees={attendees} />}
             <Comments comments={comments} />
         </div>
     );
