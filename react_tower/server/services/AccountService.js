@@ -1,48 +1,49 @@
+import { BadRequest, Forbidden } from '@bcwdev/auth0provider/lib/Errors.js';
 import { dbContext } from '../db/DbContext'
+import { logger } from '../utils/Logger'
+
+const bcrypt = require("bcrypt");
 
 // Private Methods
 
-/**
- * Creates account if one does not exist
- * @param {any} account
- * @param {any} user
- */
-async function createAccountIfNeeded(account, user) {
-  if (!account) {
-    user._id = user.id
-    account = await dbContext.Account.create({
-      ...user,
-      subs: [user.sub]
-    })
-  }
-  return account
+function hashPassword(password)
+{
+    return bcrypt.hashSync(password, 15);
 }
 
-/**
- * Adds sub to account if not already on account
- * @param {any} account
- * @param {any} user
- */
-async function mergeSubsIfNeeded(account, user) {
-  if (!account.subs.includes(user.sub)) {
-    // @ts-ignore
-    account.subs.push(user.sub)
-    await account.save()
-  }
-}
+
 /**
  * Restricts changes to the body of the account object
  * @param {any} body
  */
 function sanitizeBody(body) {
-  const writable = {
-    name: body.name,
-    picture: body.picture
-  }
-  return writable
+    const writable = {
+        name: body.name,
+        picture: body.picture,
+        password: hashPassword(body.password)
+    }
+    return writable
 }
 
 class AccountService {
+    async createAccount({ email, password })
+    {
+        const data = { email, password };
+        if(await dbContext.Account.findOne({ email: data.email }))
+        {
+            throw new Forbidden("Account with that email already exists.");
+        }
+
+        data.password = hashPassword(data.password);
+        data.name = data.email;
+        data.picture = "https://thiscatdoesnotexist.com/";
+
+        const newUser = (await dbContext.Account.create(data)).toObject();
+        delete newUser.password;
+        logger.log(newUser);
+        return newUser;
+    }
+
   /**
    * Returns a user account from the Auth0 user object
    *
@@ -52,11 +53,11 @@ class AccountService {
    * @param {any} user
    */
   async getAccount(user) {
-    let account = await dbContext.Account.findOne({
-      _id: user.id
-    })
-    account = await createAccountIfNeeded(account, user)
-    await mergeSubsIfNeeded(account, user)
+    let account = await dbContext.Account.findById(user.id)
+    if(!account)
+    {
+        throw new BadRequest("Account does not exist.");
+    }
     return account
   }
 

@@ -1,10 +1,10 @@
 import React from 'react';
 
-const TowerEventDetails = ({ towerEvent }) => {
+const TowerEventDetails = ({ towerEvent, handleAttend }) => {
     const attendOption = (() => {
         if(towerEvent?.isCanceled) return <div className="bg-danger fs-6 fw-bold text-dark text-center mt-2 p-2 rounded-3 w-100">Event Cancelled</div>
         if(towerEvent?.capacity <= 0) return <div className="bg-warning fs-6 fw-bold text-dark text-center mt-2 p-2 rounded-3 w-100">Event is Full</div>
-        return <button className="btn btn-warning">Attend</button> // TODO add onClick
+        return <button className="btn btn-warning" onClick={handleAttend}>Attend</button> // TODO add onClick
     })();
 
     return (

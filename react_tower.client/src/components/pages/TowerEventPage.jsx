@@ -14,6 +14,29 @@ function TowerEventPage() {
 
     const params = useParams();
 
+    const onAttend = async () =>
+    {
+        try
+        {
+            const newAttendee = await ticketsService.attendEvent(params.id);
+            const uTowerEvent = {...towerEvent};
+            const uAttendees = {...attendees};
+            uTowerEvent.capacity -= 1;
+            uAttendees.unshift(newAttendee);
+            setTowerEvent(uTowerEvent);
+            setAttendees(uAttendees);
+        }
+        catch(error)
+        {
+            console.error("[TowerEventPage.jsx > onAttend]", error.message);
+        }
+    }
+
+    const onUnattend = () =>
+    {
+
+    }
+
     useEffect(() => {
         (async () =>{
             const foundTowerEvent = await towerEventsService.getById(params.id);
@@ -28,10 +51,9 @@ function TowerEventPage() {
 
     return (
         <div className="container bg-dark">
-            <TowerEventDetails towerEvent={towerEvent}/>
-            { !towerEvent?.
-// @ts-ignore
-            isCanceled && <Attendees attendees={attendees} />}
+            <TowerEventDetails towerEvent={towerEvent} handleAttend={onAttend} />
+            { //@ts-ignore
+            !towerEvent?.isCanceled && <Attendees attendees={attendees} />}
             <Comments comments={comments} />
         </div>
     );

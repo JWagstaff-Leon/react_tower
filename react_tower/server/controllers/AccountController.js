@@ -1,4 +1,5 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
+import Auth from '../Middleware/Auth.js'
 import { accountService } from '../services/AccountService'
 import { ticketsService } from '../services/TicketsService.js'
 import BaseController from '../utils/BaseController'
@@ -7,10 +8,24 @@ export class AccountController extends BaseController {
   constructor() {
     super('account')
     this.router
-      .use(Auth0Provider.getAuthorizedUserInfo)
-      .get('', this.getUserAccount)
-      .get("/tickets", this.getTickets)
+        .post("", this.createUserAccount)
+        .use(Auth)
+        .get('', this.getUserAccount)
+        .get("/tickets", this.getTickets)
   }
+
+    async createUserAccount(req, res, next)
+    {
+        try
+        {
+            const userInfo = await accountService.createAccount(req.body)
+            return res.send(userInfo);
+        }
+        catch(error)
+        {
+            next(error);
+        }
+    }
 
   async getUserAccount(req, res, next) {
     try {
