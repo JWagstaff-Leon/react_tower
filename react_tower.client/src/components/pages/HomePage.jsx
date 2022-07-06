@@ -18,9 +18,6 @@ class HomePage extends Component {
         return (
             <div className="container bg-dark">
                 <div className="row">
-                    <span>This is the home page</span>
-                </div>
-                <div className="row">
                     {towerEvents && towerEvents.
 // @ts-ignore
                     map(towerEvent => <div className="col-3"><TowerEventCard towerEvent={towerEvent}/></div>)}
