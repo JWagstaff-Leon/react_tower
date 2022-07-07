@@ -1,6 +1,5 @@
 import { BadRequest, Forbidden } from '@bcwdev/auth0provider/lib/Errors.js';
 import { dbContext } from '../db/DbContext'
-import { logger } from '../utils/Logger'
 
 const bcrypt = require("bcrypt");
 

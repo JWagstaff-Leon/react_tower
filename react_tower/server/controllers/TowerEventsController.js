@@ -1,4 +1,4 @@
-import { Auth0Provider } from "@bcwdev/auth0provider";
+import Auth from "../Middleware/Auth.js";
 import { commentsService } from "../services/CommentsService.js";
 import { ticketsService } from "../services/TicketsService.js";
 import { towerEventsService } from "../services/TowerEventsService.js";
@@ -14,7 +14,7 @@ export class TowerEventsController extends BaseController
             .get("/:id", this.getById)
             .get("/:id/tickets", this.getTickets)
             .get("/:id/comments", this.getComments)
-            .use(Auth0Provider.getAuthorizedUserInfo)
+            .use(Auth)
             .post("", this.create)
             .put("/:id", this.edit)
             .delete("/:id", this.remove)

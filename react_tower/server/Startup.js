@@ -3,7 +3,6 @@ import express from 'express'
 import helmet from 'helmet'
 import { json } from 'body-parser'
 import { RegisterControllers, Paths, RegisterSocketHandlers } from '../Setup'
-import { Auth0Provider } from '@bcwdev/auth0provider'
 import { logger } from './utils/Logger'
 import { AccountValidator } from './utils/AccountValidator'
 
@@ -15,13 +14,6 @@ export class Startup {
       contentSecurityPolicy: false
     }))
     app.use(json({ limit: '50mb' }))
-
-    // NOTE Configures auth0 middleware that is used throughout controllers
-    // Auth0Provider.configure({
-    //   domain: process.env.AUTH_DOMAIN,
-    //   clientId: process.env.AUTH_CLIENT_ID,
-    //   audience: process.env.AUTH_AUDIENCE
-    // })
   }
 
   static configureCors(app) {
@@ -42,9 +34,9 @@ export class Startup {
 
   static ConfigureRoutes(app) {
     const router = express.Router()
-    app.use(AccountValidator)
+    // app.use(AccountValidator)
     RegisterControllers(router)
-    RegisterSocketHandlers()
+    // RegisterSocketHandlers()
     app.use(router)
 
     app.use('', express.static(Paths.Public))

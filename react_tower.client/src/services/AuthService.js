@@ -5,18 +5,17 @@ const _tokenKey = "token";
 
 function _setToken(token)
 {
-    window.localStorage.setItem(_tokenKey, token);
-    _setApiToken(token);
+    if(token)
+    {
+        window.localStorage.setItem(_tokenKey, token);
+        setToken(token);
+    }
+
 }
 
 function _clearToken()
 {
     window.localStorage.removeItem(_tokenKey);
-}
-
-function _setApiToken(token)
-{
-    setToken(token);
 }
 
 class AuthService
@@ -44,7 +43,7 @@ class AuthService
     loadToken()
     {
         const token = window.localStorage.getItem(_tokenKey);
-        _setApiToken(token);
+        _setToken(token);
         return token;
     }
 

@@ -1,4 +1,4 @@
-import { Auth0Provider } from "@bcwdev/auth0provider";
+import Auth from "../Middleware/Auth.js";
 import { ticketsService } from "../services/TicketsService.js";
 import BaseController from "../utils/BaseController.js";
 
@@ -8,7 +8,7 @@ export class TicketsController extends BaseController
     {
         super("api/tickets");
         this.router
-        .use(Auth0Provider.getAuthorizedUserInfo)
+        .use(Auth)
         .post("", this.create)
         .delete("/:id", this.remove)
     }

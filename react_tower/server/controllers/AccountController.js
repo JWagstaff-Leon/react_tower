@@ -20,7 +20,6 @@ export class AccountController extends BaseController {
         {
             const userInfo = await accountService.createAccount(req.body);
             const token = userInfo.generateAuthToken();
-            logger.log("this is the token > ", token);
             return res.send(token);
         }
         catch(error)
@@ -32,6 +31,7 @@ export class AccountController extends BaseController {
     async getUserAccount(req, res, next) {
         try
         {
+            logger.log("logging in with:", { email: req.body.email, password: req.body.password })
             const account = await accountService.getAccount(req.body);
             const token = account.generateAuthToken();
             res.send(token);
