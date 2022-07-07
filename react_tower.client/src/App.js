@@ -8,11 +8,13 @@ import LoginPage from "./components/pages/LoginPage.jsx";
 import SignupPage from "./components/pages/SignupPage.jsx";
 import { authService } from "./services/AuthService.js";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import Logout from "./components/Logout.jsx";
+import Navbar from "./components/Navbar.jsx";
 
 function App() {
     const [account, setAccount] = useState({});
 
-    useEffect(() => { authService.loadToken() }, []);
+    useEffect(() => { authService.loadToken(); setAccount(authService.currentUser); }, []);
 
     const handleLogin = async (event) =>
     {
@@ -53,12 +55,13 @@ function App() {
     }
 
     return (
-        <main className="bg-dark">
-            <div className="scrollable">
-                <BrowserRouter>
+        <BrowserRouter>
+            <main className="bg-dark d-flex flex-xl-row-reverse flex-column">
+                <Navbar account={account} />
+                <div className="scrollable">
                     <div className="bg-dark">
                         <Link to="/">
-                        <span className="text-light">{JSON.stringify(account)}</span>
+                        <span className="text-light">The Tower</span>
                         </Link>
                     </div>
                     <Routes>
@@ -67,11 +70,12 @@ function App() {
                         <Route path="/account" element={<AccountPage />} />
                         {ProtectedRoute({ path: "/login", element: <LoginPage doLogin={handleLogin} />, check: !account.id })}
                         {ProtectedRoute({ path: "/signup", element: <SignupPage doSignup={handleSignup} />, check: !account.id })}
+                        <Route path="/logout" element={<Logout />} />
                         <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
-                </BrowserRouter>
-            </div>
-        </main>
+                </div>
+            </main>
+        </BrowserRouter>
     );
 }
 
