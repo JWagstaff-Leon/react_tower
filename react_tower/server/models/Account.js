@@ -15,12 +15,13 @@ export const AccountSchema = new Schema(
 
 AccountSchema.methods.generateAuthToken = function()
 {
-    const priavteKey = process.env.JWT_PRIVATE_KEYJ;
+    const priavteKey = process.env.JWT_PRIVATE_KEY;
     const token = jwt.sign({
         id: this._id,
         name: this.name,
         picture: this.picture
     }, priavteKey)
+        return token;
 };
 
 export const ProfileSchema = new Schema(

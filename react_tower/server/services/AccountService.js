@@ -29,7 +29,7 @@ class AccountService {
     async createAccount({ email, password })
     {
         const data = { email, password };
-        if(await dbContext.Account.findOne({ email: data.email }))
+        if(await dbContext.Account.findOne({ email }))
         {
             throw new Forbidden("Account with that email already exists.");
         }
@@ -38,28 +38,25 @@ class AccountService {
         data.name = data.email;
         data.picture = "https://thiscatdoesnotexist.com/";
 
-        const newUser = (await dbContext.Account.create(data)).toObject();
-        delete newUser.password;
-        logger.log(newUser);
+        const newUser = await dbContext.Account.create(data);
         return newUser;
     }
 
-  /**
-   * Returns a user account from the Auth0 user object
-   *
-   * Creates user if none exists
-   *
-   * Adds sub of Auth0 account to account if not currently on account
-   * @param {any} user
-   */
-  async getAccount(user) {
-    let account = await dbContext.Account.findById(user.id)
-    if(!account)
-    {
-        throw new BadRequest("Account does not exist.");
+    async getAccount({ email, password }) {
+        let account = await dbContext.Account.findOne({ email })
+        if(!account)
+        {
+            throw new BadRequest("Account does not exist.");
+        }
+
+        const validPassword = bcrypt.compareSync(password, account.password);
+        if(!validPassword)
+        {
+            throw new BadRequest("Incorrect password");
+        }
+
+        return account;
     }
-    return account
-  }
 
   /**
    * Updates account with the request body, will only allow changes to editable fields

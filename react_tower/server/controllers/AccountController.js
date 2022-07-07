@@ -1,16 +1,16 @@
-import { Auth0Provider } from '@bcwdev/auth0provider'
 import Auth from '../Middleware/Auth.js'
 import { accountService } from '../services/AccountService'
 import { ticketsService } from '../services/TicketsService.js'
 import BaseController from '../utils/BaseController'
+import { logger } from '../utils/Logger.js'
 
 export class AccountController extends BaseController {
   constructor() {
     super('account')
     this.router
-        .post("", this.createUserAccount)
+        .post("/new", this.createUserAccount)
+        .post("", this.getUserAccount)
         .use(Auth)
-        .get('', this.getUserAccount)
         .get("/tickets", this.getTickets)
   }
 
@@ -18,8 +18,10 @@ export class AccountController extends BaseController {
     {
         try
         {
-            const userInfo = await accountService.createAccount(req.body)
-            return res.send(userInfo);
+            const userInfo = await accountService.createAccount(req.body);
+            const token = userInfo.generateAuthToken();
+            logger.log("this is the token > ", token);
+            return res.send(token);
         }
         catch(error)
         {
@@ -27,14 +29,18 @@ export class AccountController extends BaseController {
         }
     }
 
-  async getUserAccount(req, res, next) {
-    try {
-      const account = await accountService.getAccount(req.userInfo)
-      res.send(account)
-    } catch (error) {
-      next(error)
+    async getUserAccount(req, res, next) {
+        try
+        {
+            const account = await accountService.getAccount(req.body);
+            const token = account.generateAuthToken();
+            res.send(token);
+        }
+        catch (error)
+        {
+            next(error)
+        }
     }
-  }
   
   async getTickets(req, res, next)
   {

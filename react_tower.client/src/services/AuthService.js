@@ -1,46 +1,65 @@
-import { initialize } from '@bcwdev/auth0provider-client'
-import { audience, clientId, domain } from '../env'
-import { accountService } from './AccountService'
-import { api } from './AxiosService'
-import { socketService } from './SocketService'
-import { ticketsService } from './TicketsService.js'
-import { towerEventsService } from './TowerEventsService.js'
+import { api, setToken } from "./AxiosService.js";
+import jwtDecode from "jwt-decode";
 
-export const AuthService = initialize({
-  domain,
-  clientId,
-  audience,
-  useRefreshTokens: true,
-  onRedirectCallback: appState => {
-    router.push(
-      appState && appState.targetUrl
-        ? appState.targetUrl
-        : window.location.pathname
-    )
-  }
-})
+const _tokenKey = "token";
 
-AuthService.on(AuthService.AUTH_EVENTS.AUTHENTICATED, async function() {
-  api.defaults.headers.authorization = AuthService.bearer
-  api.interceptors.request.use(refreshAuthToken)
-  AppState.user = AuthService.user
-  await accountService.getAccount()
-  socketService.authenticate(AuthService.bearer)
-  // NOTE if there is something you want to do once the user is authenticated, place that here
-  ticketsService.getUserTickets();
-})
-
-async function refreshAuthToken(config) {
-  if (!AuthService.isAuthenticated) { return config }
-  const expires = AuthService.identity.exp * 1000
-  const expired = expires < Date.now()
-  const needsRefresh = expires < Date.now() + (1000 * 60 * 60 * 12)
-  if (expired) {
-    await AuthService.loginWithPopup()
-  } else if (needsRefresh) {
-    await AuthService.getTokenSilently()
-    api.defaults.headers.authorization = AuthService.bearer
-    socketService.authenticate(AuthService.bearer)
-  }
-  return config
+function _setToken(token)
+{
+    window.localStorage.setItem(_tokenKey, token);
+    _setApiToken(token);
 }
+
+function _clearToken()
+{
+    window.localStorage.removeItem(_tokenKey);
+}
+
+function _setApiToken(token)
+{
+    setToken(token);
+}
+
+class AuthService
+{
+    
+    async createAccount(email, password)
+    {
+        const res = await api.post("account", { email, password });
+        console.log("[AuthService > createAccount > response]", res.data);
+        _setToken(res.data);
+        return res.data;
+    }
+    
+    login(token)
+    {
+        _setToken(token);
+    }
+    
+    logout()
+    {
+        _clearToken();
+        return {};
+    }
+
+    loadToken()
+    {
+        const token = window.localStorage.getItem(_tokenKey);
+        _setApiToken(token);
+        return token;
+    }
+
+    get currentUser()
+    {
+        const token = this.loadToken();
+        if(token)
+        {
+            return jwtDecode(token);
+        }
+        else
+        {
+            return {};
+        }
+    }
+}
+
+export const authService = new AuthService();
