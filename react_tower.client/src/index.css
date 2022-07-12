@@ -15925,16 +15925,19 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow-y: hidden;
 }
 
 #root {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  overflow-y: hidden;
 }
 
 main {
   flex-grow: 1;
+  max-height: 100vh;
 }
 
 .navbar {
@@ -15942,7 +15945,7 @@ main {
 }
 
 .scrollable {
-  height: 100vh;
+  max-height: 100vh;
   overflow-y: scroll;
 }
 
@@ -15950,6 +15953,10 @@ main {
   width: 8rem !important;
   height: 8rem !important;
   border-width: 10px !important;
+}
+
+.btn {
+  box-shadow: none !important;
 }
 
 ::-webkit-scrollbar {

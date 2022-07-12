@@ -42,7 +42,7 @@ const Navbar = ({ account, doLogout }) => {
                 <div className="dropdown my-2 my-lg-0 no-select">
                     <div className="d-flex flex-row flex-xl-column justify-content-around align-items-center">
                         { !account?.id && <Login /> }
-                        { account?.id && <img className="text-light" height="40" src={account.picture} />}
+                        { account?.id && <img className="rounded border border-infov my-2" height="40" alt="Your account picture" src={account.picture} />}
                         <Link to="/" title="Go to home page">
                             <button className="btn text-info py-2">Home</button>
                         </Link>
