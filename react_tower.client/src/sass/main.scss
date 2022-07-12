@@ -1,0 +1,171 @@
+@import "./variables.scss";
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+/* #region General Layout */
+body
+{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+#root
+{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+main
+{
+    flex-grow: 1;
+}
+
+.scrollable
+{
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+.spinner-border
+{
+    width: 8rem !important;
+    height: 8rem !important;
+    border-width: 10px !important;
+}
+
+::-webkit-scrollbar
+{
+    width: 0.32rem;
+}
+
+::-webkit-scrollbar-thumb
+{
+    background-color: #a8a8a8;
+    border-radius: 0.16rem;
+}
+
+/* #endregion */
+
+/* #region Tower Event Card */
+.tec
+{
+    height: 18rem;
+}
+
+.tec>div
+{
+    height: 100%;
+    width: 100%;
+}
+
+.tec>div>img
+{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.tec>div>div
+{
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: hsla(192, 0%, 20%, 0.65);
+    backdrop-filter: blur(20px);
+    max-width: 100%
+}
+
+.tec h1, .tec h2
+{
+    margin: 0;
+}
+
+/* #endregion */
+
+/* #region Tower Event Details */
+
+.ted
+{
+    height: 35rem;
+}
+
+.ted>img
+{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ted>div
+{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    background-color: hsla(45, 1%, 40%, 0.50);
+    backdrop-filter: blur(20px);
+}
+
+.ted div>img
+{
+    height: 30rem;
+    max-width: 100%;
+    object-fit: cover;
+}
+
+/* #endregion */
+
+/* #region Attendees */
+
+.atn img
+{
+    height: 3.5rem;
+    width: 3.5rem;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 0px solid black;
+}
+
+.atn img:hover
+{
+    transition: all .1s linear;
+    transform: scale(2);
+    border-radius: 30%;
+    border: 1px solid black;
+}
+
+/* #endregion */
+
+/* #region Comments */
+
+.com img
+{
+    height: 5.5rem;
+    width: 5.5rem;
+    border-radius: 50%;
+}
+
+.com textarea
+{
+    height: 5rem;
+    resize: none;
+}
+
+/* #endregion */
+
+/* #region utility */
+
+.text-shadow
+{
+    filter: drop-shadow(0px 2px 1px black);
+}
+
+.no-select
+{
+    user-select: none;
+}
+
+/* #endregion */
