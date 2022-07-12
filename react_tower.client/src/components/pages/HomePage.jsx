@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { towerEventsService } from "../../services/TowerEventsService.js";
+import Loading from '../Loading.jsx';
 import TowerEventCard from '../TowerEventCard.jsx';
 
 class HomePage extends Component {
@@ -13,17 +14,19 @@ class HomePage extends Component {
         this.setState({ towerEvents })
     }
 
-    
-
     render() {
         const { towerEvents } = this.state;
+        if(!towerEvents)
+        {
+            return <Loading />;
+        }
         return (
-            <div className="container bg-dark">
+            <div className="container bg-dark flex-grow-1">
                 
                 <div className="row">
                     {towerEvents && towerEvents.
                     // @ts-ignore
-                    map(towerEvent => <div className="col-3"><TowerEventCard towerEvent={towerEvent}/></div>)}
+                    map(towerEvent => <div className="col-3" key={towerEvent.id} ><TowerEventCard towerEvent={towerEvent}/></div>)}
                 </div>
             </div>
         );

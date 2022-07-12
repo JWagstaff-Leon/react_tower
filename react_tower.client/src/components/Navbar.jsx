@@ -1,17 +1,17 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../services/AuthService.js';
+import Login from './Login.jsx';
 import Modal from './Modal.jsx';
 import TowerEventForm from './TowerEventForm.jsx';
 const bootstrap = require("bootstrap");
 
-const Navbar = ({ account }) => {
-    const navigateTo = useNavigate();
+const Navbar = ({ account, doLogout }) => {
 
     const logout = () =>
     {
         authService.logout();
-        navigateTo("/");
+        doLogout();
     }
     
     const showCreateModal = () =>
@@ -20,7 +20,7 @@ const Navbar = ({ account }) => {
     }
 
     return (
-        <React.Fragment>
+        <>
         <nav className="navbar navbar-expand-xl navbar-dark px-3 flex-xl-column">
             <Link className="navbar-brand d-flex d-xl-none" to="/">
                 <div className="d-flex flex-column align-items-center">
@@ -41,19 +41,23 @@ const Navbar = ({ account }) => {
             <div className="collapse navbar-collapse flex-column" id="navbarText">
                 <div className="dropdown my-2 my-lg-0 no-select">
                     <div className="d-flex flex-row flex-xl-column justify-content-around align-items-center">
-                        {/* <Login /> */}
+                        { !account?.id && <Login /> }
+                        { account?.id && <img className="text-light" height="40" src={account.picture} />}
                         <Link to="/" title="Go to home page">
                             <button className="btn text-info py-2">Home</button>
                         </Link>
 
-                        <Link v-if="signedIn" to="/account" title="Go to your account page">
+                        { account?.id && <Link to="/account" title="Go to your account page">
                             <button className="btn text-info py-2">Account</button>
-                        </Link>
+                        </Link> }
                     </div>
                     
                     <div className="d-flex flex-row flex-xl-column">
-                        <button v-if="signedIn" className="btn btn-success mt-3 mt-xl-4 me-3 me-xl-0 flex-grow-1" onClick={showCreateModal} title="Create new event">new event</button>
-                        <button v-if="signedIn" className="btn btn-dark mt-3 w-xl-100  ms-3 ms-xl-0 flex-grow-1" onClick={logout}>logout</button>
+                        {
+                            account?.id && <>
+                        <button className="btn btn-success mt-3 mt-xl-4 me-3 me-xl-0 flex-grow-1" onClick={showCreateModal} title="Create new event">new event</button>
+                        <button className="btn btn-dark mt-3 w-xl-100  ms-3 ms-xl-0 flex-grow-1" onClick={logout}>logout</button></>
+                        }
                     </div>
                 </div>
             </div>
@@ -62,7 +66,7 @@ const Navbar = ({ account }) => {
             modalTitle={<h4>Create New Event</h4>}
             modalBody={<TowerEventForm />}
         />
-        </React.Fragment>
+        </>
      );
 }
  

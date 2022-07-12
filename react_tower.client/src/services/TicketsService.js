@@ -88,7 +88,7 @@ class TicketsService
         
         const res = await api.get("api/events/" + eventId + "/tickets");
         logger.log("TicketsService > getByEvent response", res.data)
-        return res.data.map(ticket => ticket.account);
+        return res.data;
     }
 
     async attendEvent(eventId)
@@ -102,6 +102,7 @@ class TicketsService
         
         const newTicket = res2.data.find(ticket => ticket.eventId === res.data.eventId);
         newTicket.event.dateString = _formatDate(newTicket.event.startDate);
+        return res.data;
         // AppState.userTickets.push(newTicket);
         // AppState.attendees.unshift(res.data.account);
 
@@ -115,6 +116,7 @@ class TicketsService
     {
         const res = await api.delete("api/tickets/" + id);
         logger.log("TicketsService > unattendEvent response", res.data);
+        return res.data;
 
         // const attendeeIndex = AppState.attendees.findIndex(attendee => attendee.id === res.data.accountId);
         // AppState.attendees.splice(attendeeIndex, 1);

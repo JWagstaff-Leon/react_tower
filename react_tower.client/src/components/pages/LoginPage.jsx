@@ -11,7 +11,7 @@ const LoginPage = ({ doLogin }) => {
     }
 
     return ( 
-        <React.Fragment>
+        <>
             <form onSubmit={doLogin}>
                 <label htmlFor="login-form-email">Email</label>
                 <input type="email" name="email" id="login-form-email" placeholder="Email" className="form-control" required value={loginCreds.email} onChange={handleChange} />
@@ -20,7 +20,7 @@ const LoginPage = ({ doLogin }) => {
                 <button className="btn btn-primary mt-4">Login</button>
             </form>
             <Link to="/signup">Sign up for an account</Link>
-        </React.Fragment>
+        </>
     );
 }
  

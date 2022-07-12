@@ -1,5 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate, Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { accountService } from "../src/services/AccountService.js";
 import HomePage from "./components/pages/HomePage.jsx";
 import TowerEventPage from "./components/pages/TowerEventPage.jsx";
@@ -25,6 +25,7 @@ function App() {
         {
             const token = await accountService.getAccount(email, password);
             loginWithToken(token);
+
         }
         catch(error)
         {
@@ -47,6 +48,11 @@ function App() {
         }
     }
 
+    const handleLogout = () =>
+    {
+        setAccount({});
+    }
+
     const loginWithToken = (token) =>
     {
         authService.login(token);
@@ -57,8 +63,8 @@ function App() {
     return (
         <BrowserRouter>
             <main className="bg-dark d-flex flex-xl-row-reverse flex-column">
-                <Navbar account={account} />
-                <div className="scrollable">
+                <Navbar account={account} doLogout={handleLogout} />
+                <div className="scrollable flex-grow-1 d-flex">
                     <div className="bg-dark">
                         <Link to="/">
                         <span className="text-light">The Tower</span>
@@ -66,7 +72,7 @@ function App() {
                     </div>
                     <Routes>
                         <Route path="/" element={<HomePage />} />
-                        <Route path="/event/:id" element={<TowerEventPage />} />
+                        <Route path="/event/:id" element={<TowerEventPage account={account} />} />
                         <Route path="/account" element={<AccountPage />} />
                         {ProtectedRoute({ path: "/login", element: <LoginPage doLogin={handleLogin} />, check: !account.id })}
                         {ProtectedRoute({ path: "/signup", element: <SignupPage doSignup={handleSignup} />, check: !account.id })}

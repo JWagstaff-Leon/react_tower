@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { towerEventsService } from '../services/TowerEventsService.js';
+const bootstrap = require("bootstrap");
 
 const TowerEventForm = (props) => {
+    const navigateTo = useNavigate();
 
     const [editable, setEditable] = useState({
         name: "",
-        type: "",
+        type: "concert",
         coverImg: "",
         description: "",
         location: "",
         capacity: "0",
-        date: "",
+        startDate: "",
         hour: "0",
         minute: "0"
     });
@@ -23,10 +27,28 @@ const TowerEventForm = (props) => {
         }
     }, [])
 
-    const submitForm = (event) =>
+    const submitForm = async (event) =>
     {
         event.preventDefault();
-        console.log(editable);
+        const newData = {...editable};
+        newData.hour = +newData.hour;
+        newData.minute = +newData.minute;
+        newData.capacity = +newData.capacity;
+        const newEvent = await towerEventsService.create(newData);
+        bootstrap.Modal.getOrCreateInstance(document.getElementById("create-event-modal")).hide();
+        const defaultState = {
+            name: "",
+            type: "concert",
+            coverImg: "",
+            description: "",
+            location: "",
+            capacity: "0",
+            startDate: "",
+            hour: "0",
+            minute: "0"
+        }
+        setEditable(defaultState);
+        navigateTo("/event/" + newEvent.id);
     }
 
     const handleChange = ({ currentTarget: target }) =>
@@ -70,7 +92,7 @@ const TowerEventForm = (props) => {
             <div className="d-flex mb-5">
                 <div className="me-1">
                     <label>Event Date</label>
-                    <input type="date" className="form-control" name="date" onChange={handleChange} value={editable.date} required />
+                    <input type="date" className="form-control" name="startDate" onChange={handleChange} value={editable.startDate} required />
                 </div>
                 <div>
                     <label>Event Start Time</label>
