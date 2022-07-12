@@ -15,7 +15,7 @@ function TowerEventPage({ account }) {
 
     const params = useParams();
 
-    const onAttend = async () =>
+    const doAttend = async () =>
     {
         try
         {
@@ -34,7 +34,7 @@ function TowerEventPage({ account }) {
         }
     }
 
-    const onUnattend = async () =>
+    const doUnattend = async () =>
     {
         try
         {
@@ -50,6 +50,18 @@ function TowerEventPage({ account }) {
         catch(error)
         {
             console.error("[TowerEventPage.jsx > onUnattend]", error.message);
+        }
+    }
+
+    const doCancelEvent = async () =>
+    {
+        try
+        {
+            setTowerEvent(await towerEventsService.cancelEvent(towerEvent.id));
+        }
+        catch(error)
+        {
+            console.error("[TowerEventDetails.jsx > cancelEvent]", error.message);
         }
     }
 
@@ -74,7 +86,7 @@ function TowerEventPage({ account }) {
 
     return (
         <div className="container bg-dark">
-            <TowerEventDetails towerEvent={towerEvent} handleAttend={onAttend} handleUnattend={onUnattend}  userAttending={userAttending} account={account} />
+            <TowerEventDetails towerEvent={towerEvent} handleAttend={doAttend} handleUnattend={doUnattend}  userAttending={userAttending} handleCancelEvent={doCancelEvent} account={account} />
             { //@ts-ignore
             !towerEvent?.isCanceled && <Attendees attendees={attendees} />}
             <Comments comments={comments} />

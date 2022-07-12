@@ -11,19 +11,18 @@ const TowerEventCard = ({ towerEvent }) => {
 
     return (
         <Link to={`/event/${towerEvent.id}`} title={`Open event page for ${towerEvent.name}`}>
-            <div className="bg-dark lighten-20 rounded-3">
-
-            <div className="tec p-1">
-                <div className="position-relative">
-                    <img src={towerEvent.coverImg} alt={`Image for event named ${towerEvent.name}`} className="rounded" />
-                    <div className="position-absolute d-flex flex-column flex-grow-1 p-2 rounded-bottom">
-                        <h1 className="text-light fs-4 mb-1 fw-bold">{towerEvent.name}</h1>
-                        <h2 className="text-light fs-6">{towerEvent.location}</h2>
-                        <h2 className="text-light fs-6">{towerEvent.dateString}</h2>
-                        {capacityElem}
+            <div className="bg-dark lighten-20 rounded-3 my-2">
+                <div className="tec p-1">
+                    <div className="position-relative">
+                        <img src={towerEvent.coverImg} alt={`Image for event named ${towerEvent.name}`} className="rounded" />
+                        <div className="position-absolute d-flex flex-column flex-grow-1 p-2 rounded-bottom">
+                            <h1 className="text-light fs-4 mb-1 fw-bold">{towerEvent.name}</h1>
+                            <h2 className="text-light fs-6">{towerEvent.location}</h2>
+                            <h2 className="text-light fs-6">{towerEvent.dateString}</h2>
+                            {capacityElem}
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         </Link>
      );

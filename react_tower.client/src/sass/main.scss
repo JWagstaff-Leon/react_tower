@@ -130,6 +130,21 @@ main
     object-fit: cover;
 }
 
+.ted>button
+{
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    z-index: 1;
+    background-color: hsla(0, 0%, 100%, 0.3);
+    line-height: 1rem !important;
+}
+
+.ted>ul
+{
+    text-align: center;
+}
+
 /* #endregion */
 
 /* #region Attendees */
