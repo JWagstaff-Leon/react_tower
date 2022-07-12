@@ -62,12 +62,13 @@ function App() {
 
     return (
         <BrowserRouter>
-            <main className="bg-dark d-flex flex-xl-row-reverse flex-column">
+            <main className="d-flex flex-xl-row-reverse flex-column">
                 <Navbar account={account} doLogout={handleLogout} />
-                <div className="scrollable flex-grow-1 d-flex">
+                <div className="scrollable flex-grow-1 d-flex flex-column bg-dark">
                     <div className="bg-dark">
-                        <Link to="/">
-                        <span className="text-light">The Tower</span>
+                        <Link to="/" className="d-none d-xl-inline-block no-link-style">
+                            {/* <span className="text-light">The Tower</span> */}
+                                <span className="text-light fs-1 ps-4 d-inline no-select" title="Go to home page">the t<img src="images/tower_logo.svg" height="48" alt="" />wer</span>
                         </Link>
                     </div>
                     <Routes>

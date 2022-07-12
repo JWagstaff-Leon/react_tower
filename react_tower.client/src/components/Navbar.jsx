@@ -24,7 +24,7 @@ const Navbar = ({ account, doLogout }) => {
         <nav className="navbar navbar-expand-xl navbar-dark px-3 flex-xl-column">
             <Link className="navbar-brand d-flex d-xl-none" to="/">
                 <div className="d-flex flex-column align-items-center">
-                    <span className="fs-2" title="Go to home page">the t<img alt="logo" src="../assets/img/tower_logo.svg" height="30" />wer</span>
+                    <span className="fs-2" title="Go to home page">the t<img alt="logo" src="images/tower_logo.svg" height="30" />wer</span>
                 </div>
             </Link>
             <button

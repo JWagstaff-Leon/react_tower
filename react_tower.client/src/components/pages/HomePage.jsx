@@ -26,7 +26,7 @@ class HomePage extends Component {
                 <div className="row">
                     {towerEvents && towerEvents.
                     // @ts-ignore
-                    map(towerEvent => <div className="col-3" key={towerEvent.id} ><TowerEventCard towerEvent={towerEvent}/></div>)}
+                    map(towerEvent => <div className="col-12 col-lg-6 col-xl-4 col-xxl-3" key={towerEvent.id} ><TowerEventCard towerEvent={towerEvent}/></div>)}
                 </div>
             </div>
         );
