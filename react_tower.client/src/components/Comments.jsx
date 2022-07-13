@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Comment from './Comment.jsx';
 import CreateComment from './CreateComment.jsx';
 
-const Comments = ({ comments, handleNewComment, userSignedIn }) => {
+const Comments = ({ comments, handleNewComment, handleDelete, account }) => {
 
     const [newComment, setNewComment] = useState("");
 
@@ -38,10 +38,10 @@ const Comments = ({ comments, handleNewComment, userSignedIn }) => {
                 <div className="com">
                     <span className="text-light no-select">What people are saying</span>
                     <div className="bg-secondary py-2 rounded px-5 d-flex flex-column">
-                        {userSignedIn && <CreateComment comment={newComment} handleChange={doChangeComment} handleSubmit={doSubmitComment}/>}
+                        {account?.id && <CreateComment comment={newComment} handleChange={doChangeComment} handleSubmit={doSubmitComment}/>}
                         { comments?.length > 0 ?
                         comments?.map(comment => { return(
-                            <Comment comment={comment} key={comment.id} />
+                            <Comment comment={comment} account={account} handleDelete={handleDelete} key={comment.id} />
                         );})
                         :
                         <span className="fs-1 text-success darken-5 no-select fst-italic align-self-center my-2">No comments yet</span>

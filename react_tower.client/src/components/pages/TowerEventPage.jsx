@@ -8,6 +8,7 @@ import Comments from '../Comments.jsx';
 import TowerEventDetails from '../TowerEventDetails.jsx';
 import Loading from "../Loading.jsx";
 import { logger } from '../../utils/Logger.js';
+import Pop from '../../utils/Pop.js';
 
 function TowerEventPage({ account }) {
     const [towerEvent, setTowerEvent] = useState(null);
@@ -38,6 +39,11 @@ function TowerEventPage({ account }) {
     {
         try
         {
+            if(towerEvent?.capacity < 5 && !(await Pop.confirm("Are you sure?",  "You might not be able to revert this!", "warning", "Yes, cancel ticket.")))
+            {
+                return;
+            }
+
             const ticketId = (attendees?.find(a => a.accountId === account.id)).id;
             const removed = await ticketsService.unattendEvent(ticketId);
             const uTowerEvent = {...towerEvent};
@@ -70,7 +76,10 @@ function TowerEventPage({ account }) {
     {
         try
         {
-            setTowerEvent(await towerEventsService.cancelEvent(towerEvent.id));
+            if(await Pop.confirm("Are you sure?",  "You won't be able to revert this!", "warning", "Yes, cancel it."))
+            {
+                setTowerEvent(await towerEventsService.cancelEvent(towerEvent.id));
+            }
         }
         catch(error)
         {
@@ -103,6 +112,24 @@ function TowerEventPage({ account }) {
         setComments(uComments);
     }
 
+    const doDeleteComment = async (id) =>
+    {
+        try
+        {
+            if(await Pop.confirm())
+            {
+                const removed = await commentsService.remove(id);
+                let uComments = [...comments].filter(comment => comment.id != removed.id);
+                setComments(uComments);
+            }
+                
+        }
+        catch(error)
+        {
+            logger.error("[TowerEventPage.jsx > doDeleteComment]", error.message);
+        }
+    }
+
     if(!towerEvent || !attendees || !comments)
     {
         return <Loading />;
@@ -113,7 +140,7 @@ function TowerEventPage({ account }) {
             <TowerEventDetails towerEvent={towerEvent} handleAttend={doAttend} handleUnattend={doUnattend} userAttending={userAttending} handleUpdateEvent={doUpdateEvent} handleCancelEvent={doCancelEvent} account={account} />
             { //@ts-ignore
             !towerEvent?.isCanceled && <Attendees attendees={attendees} />}
-            <Comments comments={comments} handleNewComment={doAddComment} userSignedIn={account?.id} />
+            <Comments comments={comments} handleNewComment={doAddComment} handleDelete={doDeleteComment} account={account} />
         </div>
     );
 }
