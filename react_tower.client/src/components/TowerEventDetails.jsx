@@ -49,7 +49,7 @@ const TowerEventDetails = ({ account, towerEvent, handleAttend, handleUnattend, 
                                         <p className="text-light fs-5 text-shadow">{towerEvent?.description}</p>
                                     </div>
                                     <div className="d-flex justify-content-between">
-                                        {towerEvent?.capacity > 0 && !towerEvent.isCanceled && <span className="fs-4 text-light text-shadow"><span className="text-info">{towerEvent?.capacity}</span> spots left</span>}
+                                        {towerEvent?.capacity > 0 && !towerEvent.isCanceled && <span className="fs-4 text-light text-shadow"><span className="text-info">{towerEvent?.capacity}</span> spot{towerEvent?.capacity != 1 ? "s" : ""} left</span>}
                                         {account?.id && attendOption}
                                     </div>
                                 </div>
