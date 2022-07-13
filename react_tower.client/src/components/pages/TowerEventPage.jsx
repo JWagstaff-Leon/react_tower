@@ -113,7 +113,7 @@ function TowerEventPage({ account }) {
             <TowerEventDetails towerEvent={towerEvent} handleAttend={doAttend} handleUnattend={doUnattend} userAttending={userAttending} handleUpdateEvent={doUpdateEvent} handleCancelEvent={doCancelEvent} account={account} />
             { //@ts-ignore
             !towerEvent?.isCanceled && <Attendees attendees={attendees} />}
-            <Comments comments={comments} handleNewComment={doAddComment} />
+            <Comments comments={comments} handleNewComment={doAddComment} userSignedIn={account?.id} />
         </div>
     );
 }

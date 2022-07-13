@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Comment from './Comment.jsx';
 import CreateComment from './CreateComment.jsx';
 
-const Comments = ({ comments, handleNewComment }) => {
+const Comments = ({ comments, handleNewComment, userSignedIn }) => {
 
     const [newComment, setNewComment] = useState("");
 
@@ -38,7 +38,7 @@ const Comments = ({ comments, handleNewComment }) => {
                 <div className="com">
                     <span className="text-light no-select">What people are saying</span>
                     <div className="bg-secondary py-2 rounded px-5 d-flex flex-column">
-                        <CreateComment comment={newComment} handleChange={doChangeComment} handleSubmit={doSubmitComment}/>
+                        {userSignedIn && <CreateComment comment={newComment} handleChange={doChangeComment} handleSubmit={doSubmitComment}/>}
                         { comments?.length > 0 ?
                         comments?.map(comment => { return(
                             <Comment comment={comment} key={comment.id} />
