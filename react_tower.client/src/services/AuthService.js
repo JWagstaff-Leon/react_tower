@@ -1,5 +1,6 @@
 import { api, setToken } from "./AxiosService.js";
 import jwtDecode from "jwt-decode";
+import { logger } from "../utils/Logger.js";
 
 const _tokenKey = "token";
 
@@ -24,7 +25,7 @@ class AuthService
     async createAccount(email, password)
     {
         const res = await api.post("account", { email, password });
-        console.log("[AuthService > createAccount > response]", res.data);
+        logger.log("[AuthService > createAccount > response]", res.data);
         _setToken(res.data);
         return res.data;
     }

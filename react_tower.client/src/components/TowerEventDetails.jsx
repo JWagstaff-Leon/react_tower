@@ -1,9 +1,8 @@
 import React from 'react';
-import { towerEventsService } from '../services/TowerEventsService.js';
 import Modal from './Modal.jsx';
 import TowerEventForm from './TowerEventForm.jsx';
 
-const TowerEventDetails = ({ account, towerEvent, handleAttend, handleUnattend, handleCancelEvent, userAttending }) => {
+const TowerEventDetails = ({ account, towerEvent, handleAttend, handleUnattend, handleCancelEvent, handleUpdateEvent, userAttending }) => {
     const attendOption = (() => {
         if(towerEvent?.isCanceled) return <div className="bg-danger fs-6 fw-bold text-dark text-center mt-2 p-2 rounded-3 w-100">Event Cancelled</div>
         if(towerEvent?.capacity <= 0) return <div className="bg-warning fs-6 fw-bold text-dark text-center mt-2 p-2 rounded-3 w-100">Event is Full</div>
@@ -27,7 +26,7 @@ const TowerEventDetails = ({ account, towerEvent, handleAttend, handleUnattend, 
         <>
         <div className="row">
             <div className="col-12">
-                <div className="p-2 ted position-relative">
+                <div className="p-2 ted position-relative no-select">
                     <img src={towerEvent?.coverImg} alt={`Blurred cover image for ${towerEvent?.name}`} />
                     {editButton}
                     <div className="m-2 p-4">
@@ -60,7 +59,7 @@ const TowerEventDetails = ({ account, towerEvent, handleAttend, handleUnattend, 
                 </div>
             </div>
         </div>
-        <Modal elementId="edit-event-modal" modalTitle="Edit Event" modalBody={<TowerEventForm towerEvent={towerEvent} />}></Modal>
+        {towerEvent && <Modal elementId="edit-event-modal" modalTitle="Edit Event" modalBody={<TowerEventForm towerEvent={towerEvent} handleUpdate={handleUpdateEvent} />}></Modal>}
         </>
     );
 }

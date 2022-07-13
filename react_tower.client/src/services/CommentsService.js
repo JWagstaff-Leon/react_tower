@@ -14,6 +14,7 @@ class CommentsService
     {
         const res = await api.post("api/comments", data);
         logger.log("CommentsService > postComment response", res.data);
+        return res.data;
         // AppState.comments.unshift(res.data);
     }
 

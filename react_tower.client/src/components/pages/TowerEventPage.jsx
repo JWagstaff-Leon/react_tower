@@ -7,6 +7,7 @@ import Attendees from '../Attendees.jsx';
 import Comments from '../Comments.jsx';
 import TowerEventDetails from '../TowerEventDetails.jsx';
 import Loading from "../Loading.jsx";
+import { logger } from '../../utils/Logger.js';
 
 function TowerEventPage({ account }) {
     const [towerEvent, setTowerEvent] = useState(null);
@@ -22,7 +23,6 @@ function TowerEventPage({ account }) {
             const newAttendee = await ticketsService.attendEvent(params.id);
             const uTowerEvent = {...towerEvent};
             const uAttendees = [...attendees];
-            console.log("-------", uAttendees, "-------");
             uTowerEvent.capacity -= 1;
             uAttendees.unshift(newAttendee);
             setTowerEvent(uTowerEvent);
@@ -53,6 +53,19 @@ function TowerEventPage({ account }) {
         }
     }
 
+    const doUpdateEvent = async (update) =>
+    {
+        try
+        {
+            const uEvent = await towerEventsService.edit(update.id, update);
+            setTowerEvent(uEvent);
+        }
+        catch(error)
+        {
+            logger.error("[TowerEventPage.jsx > doUpdateEvent]", error.message);
+        }
+    }
+
     const doCancelEvent = async () =>
     {
         try
@@ -67,17 +80,28 @@ function TowerEventPage({ account }) {
 
     useEffect(() => {
         (async () =>{
+            setTowerEvent(null);
+            setAttendees(null);
+            setComments(null);
             const foundTowerEvent = await towerEventsService.getById(params.id);
             setTowerEvent(foundTowerEvent);
             const foundAttendees = await ticketsService.getByEvent(params.id);
             setAttendees(foundAttendees);
             const foundComments = await commentsService.getByEvent(params.id);
-            foundComments.forEach(comment => comment.isAttending = !!(foundAttendees.find(attendee => attendee.id === comment.creator.id)))
+            foundComments.forEach(comment => comment.isAttending = !!(foundAttendees.find(attendee => attendee.accountId === comment.creator.id)))
             setComments(foundComments);
         })();
     }, [params.id]);
 
     const userAttending = attendees && account?.id && !!attendees.find(a => a.accountId === account?.id);
+
+    const doAddComment = async (comment) => 
+    {
+        const newComment = await commentsService.postComment({ body: comment, eventId: params.id });
+        const uComments = [...comments];
+        uComments.unshift(newComment);
+        setComments(uComments);
+    }
 
     if(!towerEvent || !attendees || !comments)
     {
@@ -86,10 +110,10 @@ function TowerEventPage({ account }) {
 
     return (
         <div className="container bg-dark">
-            <TowerEventDetails towerEvent={towerEvent} handleAttend={doAttend} handleUnattend={doUnattend}  userAttending={userAttending} handleCancelEvent={doCancelEvent} account={account} />
+            <TowerEventDetails towerEvent={towerEvent} handleAttend={doAttend} handleUnattend={doUnattend} userAttending={userAttending} handleUpdateEvent={doUpdateEvent} handleCancelEvent={doCancelEvent} account={account} />
             { //@ts-ignore
             !towerEvent?.isCanceled && <Attendees attendees={attendees} />}
-            <Comments comments={comments} />
+            <Comments comments={comments} handleNewComment={doAddComment} />
         </div>
     );
 }

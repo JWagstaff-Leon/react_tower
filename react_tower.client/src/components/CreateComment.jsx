@@ -1,12 +1,14 @@
 import React from 'react';
 
-const CreateComment = () => {
+const CreateComment = ({ comment, handleChange, handleSubmit }) => {
     return ( 
         <div className="d-flex flex-column align-items-end my-4">
             <span className="text-light">Join the conversation</span>
-            <label className="visually-hidden" htmlFor="new-comment">New Comment</label>
-            <textarea name="new-comment" id="new-comment" className="form-control my-2" placeholder="Tell the people"></textarea>
-            <button className="btn btn-primary">post comment</button>
+            <form onSubmit={handleSubmit} className="w-100 d-flex flex-column">
+                <label className="visually-hidden" htmlFor="newComment">New Comment</label>
+                <textarea name="newComment" id="newComment" className="form-control my-2" placeholder="Tell the people" required value={comment} onChange={handleChange}></textarea>
+                <button type="submit" className="btn btn-primary ms-auto">post comment</button>
+            </form>
         </div>
      );
 }

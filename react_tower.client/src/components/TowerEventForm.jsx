@@ -23,32 +23,87 @@ const TowerEventForm = (props) => {
     useEffect(() => {
         if(towerEvent)
         {
-            setEditable(towerEvent);
+            let dateString = "";
+            dateString += towerEvent.startDate.getFullYear() + "-";
+            if(+towerEvent.startDate.getMonth() + 1 < 10)
+            {
+                dateString += "0";
+            }
+            dateString += (+props.towerEvent.startDate.getMonth() + 1) + "-";
+            if(+towerEvent.startDate.getDate() < 10)
+            {
+                dateString += "0";
+            }
+            dateString += towerEvent.startDate.getDate();
+            console.log(dateString);
+
+            const uEditable =
+            {
+                name: towerEvent.name,
+                type: towerEvent.type,
+                coverImg: towerEvent.coverImg,
+                description: towerEvent.description,
+                location: towerEvent.location,
+                capacity: towerEvent.capacity,
+                startDate: dateString,
+                hour: towerEvent.startDate.getHours(),
+                minute: towerEvent.startDate.getMinutes()
+            };
+            console.log("Found a tower event; setting values to:", uEditable);
+            setEditable(uEditable);
         }
     }, [])
 
     const submitForm = async (event) =>
     {
-        event.preventDefault();
-        const newData = {...editable};
-        newData.hour = +newData.hour;
-        newData.minute = +newData.minute;
-        newData.capacity = +newData.capacity;
-        const newEvent = await towerEventsService.create(newData);
-        bootstrap.Modal.getOrCreateInstance(document.getElementById("create-event-modal")).hide();
-        const defaultState = {
-            name: "",
-            type: "concert",
-            coverImg: "",
-            description: "",
-            location: "",
-            capacity: "0",
-            startDate: "",
-            hour: "0",
-            minute: "0"
+        try
+        {
+            event.preventDefault();
+            console.log("Submitted data:", editable);
+            const newData = {...editable};
+
+            const newStartDate = new Date();
+            const fullYear = +newData.startDate.substring(0, 4);
+            const month = (+newData.startDate.substring(5, 7)) - 1;
+            const date = +newData.startDate.substring(8, 10);
+            newStartDate.setFullYear(fullYear);
+            newStartDate.setMonth(month);
+            newStartDate.setDate(date);
+            newStartDate.setHours(+newData.hour);
+            newStartDate.setMinutes(+newData.minute);
+            newData.startDate = newStartDate;
+            console.log("Parsed data:", newData);
+            
+            if(newData.id)
+            {
+                // const uEvent = await towerEventsService.create(newData);
+                await props.handleUpdate(newData);
+                bootstrap.Modal.getOrCreateInstance(document.getElementById("edit-event-modal")).hide();
+            }
+            else
+            {
+                const newEvent = await towerEventsService.create(newData);
+                bootstrap.Modal.getOrCreateInstance(document.getElementById("create-event-modal")).hide();
+                
+                const defaultState = {
+                    name: "",
+                    type: "concert",
+                    coverImg: "",
+                    description: "",
+                    location: "",
+                    capacity: "0",
+                    startDate: "",
+                    hour: "0",
+                    minute: "0"
+                }
+                setEditable(defaultState);
+                navigateTo("/event/" + newEvent.id);
+            }
         }
-        setEditable(defaultState);
-        navigateTo("/event/" + newEvent.id);
+        catch(error)
+        {
+            console.error("[TowerEventForm.jsx > submitForm]", error.message);
+        }
     }
 
     const handleChange = ({ currentTarget: target }) =>

@@ -2,8 +2,8 @@ import React from 'react';
 
 const Comment = ({ comment }) => {
     return ( 
-        <div className="d-flex py-2" key={comment.id}>
-            <img src={comment.creator.picture} />
+        <div className="d-flex py-2 no-select">
+            <img src={comment.creator.picture} alt={"profile picture of " + comment.creator.name} />
             <div className="d-flex flex-column bg-light px-3 py-2 ms-3 flex-grow-1 rounded shadow">
                 <div className="d-flex">
                     <span>{comment.creator.name}</span>
