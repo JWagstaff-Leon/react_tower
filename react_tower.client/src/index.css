@@ -16026,6 +16026,10 @@ main {
   object-fit: cover;
 }
 
+.ted-box {
+  height: 100%;
+}
+
 .ted > button {
   position: absolute;
   top: 8px;
@@ -16039,6 +16043,16 @@ main {
   text-align: center;
 }
 
+@media only screen and (max-width: 1199px) {
+  .ted {
+    min-height: 35rem;
+    height: unset;
+  }
+
+  .ted-box {
+    height: unset;
+  }
+}
 /* #endregion */
 /* #region Attendees */
 .atn img {

@@ -27,16 +27,16 @@ const TowerEventDetails = ({ account, towerEvent, handleAttend, handleUnattend, 
         <>
         <div className="row">
             <div className="col-12">
-                <div className="p-2 ted position-relative no-select">
+                <div className="p-2 ted position-relative no-select d-flex d-xl-block flex-column">
                     <img src={towerEvent?.coverImg} alt={`Blurred cover image for ${towerEvent?.name}`} />
                     {editButton}
                     <div className="m-2 p-4">
-                        <div className="row h-100 align-items-center">
-                            <div className="col-12 col-lg-4">
+                        <div className="row h-100 flex-column flex-xl-row align-items-center">
+                            <div className="col-12 col-xl-4">
                                 <img src={towerEvent?.coverImg} alt={`Cover image for ${towerEvent?.name}`} />
                             </div>
 
-                            <div className="col-12 col-lg-8 d-flex flex-column align-self-start mt-4 pe-5 pb-4 flex-grow-1 h-100">
+                            <div className="col-12 col-xl-8 d-flex flex-column align-self-start mt-4 pe-5 pb-4 flex-grow-1 ted-box">
                                 <div className="d-flex flex-column flex-grow-1">
                                     <div className="d-flex justify-content-between">
                                         <span className="fs-3 text-light text-shadow">{towerEvent?.name}</span>
