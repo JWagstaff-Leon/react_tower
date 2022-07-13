@@ -1,6 +1,7 @@
 import Auth from '../Middleware/Auth.js'
 import { accountService } from '../services/AccountService'
 import { ticketsService } from '../services/TicketsService.js'
+import { towerEventsService } from '../services/TowerEventsService.js'
 import BaseController from '../utils/BaseController'
 import { logger } from '../utils/Logger.js'
 
@@ -11,6 +12,7 @@ export class AccountController extends BaseController {
         .post("/new", this.createUserAccount)
         .post("", this.getUserAccount)
         .use(Auth)
+        .get("/events", this.getEvents)
         .get("/tickets", this.getTickets)
   }
 
@@ -39,6 +41,18 @@ export class AccountController extends BaseController {
         catch (error)
         {
             next(error)
+        }
+    }
+
+    async getEvents(req, res, next)
+    {
+        try
+        {
+            return res.send(await towerEventsService.getByQuery({ creatorId: req.userInfo.id }));
+        }
+        catch(error)
+        {
+            next(error);
         }
     }
   

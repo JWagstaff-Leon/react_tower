@@ -11,7 +11,7 @@ const LoginPage = ({ doLogin }) => {
     }
 
     return ( 
-        <div className="container">
+        <div className="container flex-grow-1">
             <div className="row flex-column h-100 justify-content-center">
                 <div className="col-12 offset-lg-3 col-lg-6">
                     <h1 className="text-light fs-2">Sign in to The Tower</h1>
@@ -23,7 +23,7 @@ const LoginPage = ({ doLogin }) => {
                         <button className="btn btn-primary mt-4">Login</button>
                     </form>
                     <div className="mt-3">
-                        <Link to="/signup">Sign up for an account</Link>
+                        <Link to="/signup" replace={true} className="fw-bold text-decoration-none fs-5 text-primary">Sign up for an account  <i className="mdi mdi-chevron-right-circle-outline"></i></Link>
                     </div>
                 </div>
             </div>

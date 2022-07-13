@@ -94,22 +94,8 @@ class TicketsService
     async attendEvent(eventId)
     {
         const res = await api.post("api/tickets", { eventId });
-        const res2 = await api.get("account/tickets");
-
-        
         logger.log("TicketsService > attendEvent > post 'api/tickets' response", res.data);
-        logger.log("TicketsService > attendEvent > get 'account/tickets' response", res2.data);
-        
-        const newTicket = res2.data.find(ticket => ticket.eventId === res.data.eventId);
-        newTicket.event.dateString = _formatDate(newTicket.event.startDate);
         return res.data;
-        // AppState.userTickets.push(newTicket);
-        // AppState.attendees.unshift(res.data.account);
-
-        // const eventIndex = AppState.towerEvents.findIndex(event => event.id === res.data.eventId);
-        // AppState.towerEvents[eventIndex].capacity -= 1;
-
-        // AppState.activeTowerEvent.capacity -= 1;
     }
     
     async unattendEvent(id)
@@ -117,36 +103,14 @@ class TicketsService
         const res = await api.delete("api/tickets/" + id);
         logger.log("TicketsService > unattendEvent response", res.data);
         return res.data;
-
-        // const attendeeIndex = AppState.attendees.findIndex(attendee => attendee.id === res.data.accountId);
-        // AppState.attendees.splice(attendeeIndex, 1);
-
-        // const userIndex = AppState.userTickets.findIndex(ticket => ticket.eventId === res.data.eventId);
-        // AppState.userTickets.splice(userIndex, 1);
-
-        // const eventIndex = AppState.towerEvents.findIndex(event => event.id === res.data.eventId);
-        // AppState.towerEvents[eventIndex].capacity += 1;
-        
-        // AppState.activeTowerEvent.capacity += 1;
     }
 
-    async getUserTickets()
+    async getByCurrentUser()
     {
-        this.clearUserActive();
         const res = await api.get("account/tickets");
         res.data.forEach(v => v.event.dateString = _formatDate(v.event.startDate));
-        logger.log("TicketsService > getUserTickets response", res.data)
-        // AppState.userTickets = res.data;
-    }
-
-    clearActive()
-    {
-        // AppState.attendees = [];
-    }
-
-    clearUserActive()
-    {
-        // AppState.userTickets = null;
+        logger.log("TicketsService > getByCurrentUser > response", res.data);
+        return res.data;
     }
 }
 

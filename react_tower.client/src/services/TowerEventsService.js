@@ -135,6 +135,17 @@ class TowerEventsService
         return res.data;
     }
 
+    async getByCurrentUser()
+    {
+        const res = await api.get("account/events");
+        res.data.forEach(v => v.startDate = new Date(v.startDate));
+        res.data.forEach(v => v.startNums = _parseDate(v.startDate));
+        res.data.forEach(v => v.dateString = _formatDate(v.startDate));
+        res.data.forEach(v => v.timeString = _formatTime(v.startDate));
+        logger.log("[TowerEventsService > getByCurrentUser > res]", res.data);
+        return res.data;
+    }
+
     async create(data)
     {
         const res = await api.post("api/events", data);

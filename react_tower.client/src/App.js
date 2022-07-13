@@ -11,9 +11,9 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Navbar from "./components/Navbar.jsx";
 
 function App() {
-    const [account, setAccount] = useState({});
+    const [account, setAccount] = useState(null);
 
-    useEffect(() => { authService.loadToken(); setAccount(authService.currentUser); }, []);
+    useEffect(() => { setAccount(authService.currentUser); }, []);
 
     const handleLogin = async (event) =>
     {
@@ -59,6 +59,11 @@ function App() {
         setAccount(userInfo);
     }
 
+    if(!account)
+    {
+        return <></>
+    }
+
     return (
         <BrowserRouter>
             <main className="d-flex flex-xl-row-reverse flex-column">
@@ -72,9 +77,9 @@ function App() {
                     <Routes>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/event/:id" element={<TowerEventPage account={account} />} />
-                        <Route path="/account" element={<AccountPage />} />
-                        {ProtectedRoute({ path: "/login", element: <LoginPage doLogin={handleLogin} />, check: !account.id })}
-                        {ProtectedRoute({ path: "/signup", element: <SignupPage doSignup={handleSignup} />, check: !account.id })}
+                        {ProtectedRoute({ path:"/account", element: <AccountPage />, check: account?.id })}
+                        {ProtectedRoute({ path: "/login", element: <LoginPage doLogin={handleLogin} />, check: !account?.id })}
+                        {ProtectedRoute({ path: "/signup", element: <SignupPage doSignup={handleSignup} />, check: !account?.id })}
                         <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
                 </div>

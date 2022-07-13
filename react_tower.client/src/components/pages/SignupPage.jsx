@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 
 const SignupPage = ({ doSignup }) => {
 
@@ -11,7 +12,7 @@ const SignupPage = ({ doSignup }) => {
     }
 
     return (
-        <div className="container">
+        <div className="container flex-grow-1">
             <div className="row flex-column h-100 justify-content-center">
                 <div className="col-12 offset-lg-3 col-lg-6">
                     <h1 className="text-light fs-2">Sign up for The Tower</h1>
@@ -22,6 +23,9 @@ const SignupPage = ({ doSignup }) => {
                         <input type="password" name="password" id="signup-form-password" placeholder="Password" className="form-control" required value={loginCreds.password} onChange={handleChange}/>
                         <button className="btn btn-primary mt-4">Sign up</button>
                     </form>
+                    <div className="mt-3">
+                        <Link to="/login" replace={true} className="fw-bold fs-5 text-primary text-decoration-none"><i className="mdi mdi-chevron-left-circle-outline"></i>  Back to login page</Link>
+                    </div>
                 </div>
             </div>
         </div>
