@@ -16091,6 +16091,59 @@ main {
 }
 
 /* #endregion */
+/* #region tickets */
+.ticket {
+  height: 13rem;
+}
+
+.ticket .event-image {
+  height: 13rem;
+  width: 13rem;
+  object-fit: cover;
+}
+
+.ticket-circle-div {
+  position: relative;
+  right: 0px;
+  top: 6.5rem;
+}
+
+.ticket-circle {
+  position: absolute;
+  height: 8rem;
+  width: 8rem;
+  left: -4rem;
+  top: -4rem;
+  border-radius: 50%;
+}
+
+@media only screen and (max-width: 768px) {
+  .ticket {
+    height: 10rem;
+  }
+
+  .ticket .event-image {
+    height: 10rem;
+    width: 5rem;
+    object-fit: cover;
+  }
+
+  .ticket-circle-div {
+    position: relative;
+    right: 0px;
+    top: 5rem;
+  }
+
+  .ticket-circle {
+    position: absolute;
+    height: 15vw;
+    width: 15vw;
+    left: -7.5vw;
+    top: -7.5vw;
+    border-radius: 50%;
+  }
+}
+/* #endregion */
 /* #region utility */
 form:invalid button[type=submit] {
   filter: grayscale(1);

@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { ticketsService } from "../../services/TicketsService.js";
 import { towerEventsService } from "../../services/TowerEventsService.js";
+import { logger } from "../../utils/Logger.js";
+import Pop from "../../utils/Pop.js";
 import Loading from "../Loading.jsx";
 import TowerEventCard from "../TowerEventCard.jsx";
 import UserTicket from "../UserTicket.jsx";
@@ -27,6 +29,23 @@ const AccountPage = () => {
         return <Loading />;
     }
 
+    const doCancelTicket = async (ticketId) =>
+    {
+        try
+        {
+            if(await Pop.confirm("Are you sure?",  "You might not be able to revert this!", "warning", "Yes, cancel ticket."))
+            {
+                const removed = await ticketsService.unattendEvent(ticketId);
+                const uUserTickets = [...userTickets].filter(ticket => ticket.id != removed.id);
+                setUserTickets(uUserTickets);
+            }
+        }
+        catch(error)
+        {
+            logger.error("[AccountPage.jsx > doCancelTicket]", error.message);
+        }
+    }
+
     return (
         <div className="container">
 
@@ -45,7 +64,7 @@ const AccountPage = () => {
                 <div className="row flex-column">
                     {userTickets?.length <= 0 && <span v-if="userTickets.length <= 0" className="text-primary fs-2 px-xl-5">You are not registered for any upcoming events.</span>}
                     <div className="col-12 col-xl-8 offset-0 offset-xl-2">
-                        {userTickets?.map(ticket => <UserTicket ticket={ticket} key={ticket.id} />)}
+                        {userTickets?.map(ticket => <UserTicket ticket={ticket} key={ticket.id} handleCancel={doCancelTicket} />)}
                     </div>
                 </div>
             </div>
