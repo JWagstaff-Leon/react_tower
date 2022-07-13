@@ -11,7 +11,7 @@ class HomePage extends Component {
     componentDidMount = async() =>
     {
         const towerEvents = await towerEventsService.getAll();
-        this.setState({ towerEvents })
+        this.setState({ towerEvents });
     }
 
     render() {

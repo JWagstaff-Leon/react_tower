@@ -8,7 +8,7 @@ const TowerEventDetails = ({ account, towerEvent, handleAttend, handleUnattend, 
         if(towerEvent?.isCanceled) return <div className="bg-danger fs-6 fw-bold text-dark text-center mt-2 p-2 rounded-3 w-100">Event Cancelled</div>
         if(userAttending) return <button className={cancelTicketButtonClass} onClick={handleUnattend}>Cancel Ticket</button>
         if(towerEvent?.capacity <= 0) return <div className="bg-warning fs-6 fw-bold text-dark text-center mt-2 p-2 rounded-3 w-100">Event is Full</div>
-        return <button className="btn btn-warning" onClick={handleAttend}>Attend</button>
+        if(account?.id) return <button className="btn btn-warning" onClick={handleAttend}>Attend</button>
     })();
 
     const editButton =
@@ -51,7 +51,7 @@ const TowerEventDetails = ({ account, towerEvent, handleAttend, handleUnattend, 
                                     </div>
                                     <div className="d-flex justify-content-between">
                                         {(towerEvent?.capacity > 0 || userAttending) && !towerEvent.isCanceled && <span className="fs-4 text-light text-shadow"><span className="text-info">{towerEvent?.capacity}</span> spot{towerEvent?.capacity != 1 ? "s" : ""} left</span>}
-                                        {account?.id && attendOption}
+                                        {attendOption}
                                     </div>
                                 </div>
                             </div>

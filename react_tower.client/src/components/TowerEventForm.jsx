@@ -35,7 +35,6 @@ const TowerEventForm = (props) => {
                 dateString += "0";
             }
             dateString += towerEvent.startDate.getDate();
-            console.log(dateString);
 
             const uEditable =
             {
@@ -49,7 +48,6 @@ const TowerEventForm = (props) => {
                 hour: towerEvent.startDate.getHours(),
                 minute: towerEvent.startDate.getMinutes()
             };
-            console.log("Found a tower event; setting values to:", uEditable);
             setEditable(uEditable);
         }
     }, [])
@@ -59,7 +57,6 @@ const TowerEventForm = (props) => {
         try
         {
             event.preventDefault();
-            console.log("Submitted data:", editable);
             const newData = {...editable};
 
             const newStartDate = new Date();
@@ -72,7 +69,6 @@ const TowerEventForm = (props) => {
             newStartDate.setHours(+newData.hour);
             newStartDate.setMinutes(+newData.minute);
             newData.startDate = newStartDate;
-            console.log("Parsed data:", newData);
             
             if(newData.id)
             {

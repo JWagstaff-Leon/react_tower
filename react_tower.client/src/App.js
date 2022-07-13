@@ -8,7 +8,6 @@ import LoginPage from "./components/pages/LoginPage.jsx";
 import SignupPage from "./components/pages/SignupPage.jsx";
 import { authService } from "./services/AuthService.js";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
-import Logout from "./components/Logout.jsx";
 import Navbar from "./components/Navbar.jsx";
 
 function App() {
@@ -76,7 +75,6 @@ function App() {
                         <Route path="/account" element={<AccountPage />} />
                         {ProtectedRoute({ path: "/login", element: <LoginPage doLogin={handleLogin} />, check: !account.id })}
                         {ProtectedRoute({ path: "/signup", element: <SignupPage doSignup={handleSignup} />, check: !account.id })}
-                        <Route path="/logout" element={<Logout />} />
                         <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
                 </div>
