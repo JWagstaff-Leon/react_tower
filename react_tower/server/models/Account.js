@@ -16,10 +16,12 @@ export const AccountSchema = new Schema(
 AccountSchema.methods.generateAuthToken = function()
 {
     const priavteKey = process.env.JWT_PRIVATE_KEY;
+    const expiresAt = new Date().setTime(+Date.now() + +process.env.TOKEN_LIFETIME);
     const token = jwt.sign({
         id: this._id,
         name: this.name,
-        picture: this.picture
+        picture: this.picture,
+        expiresAt
     }, priavteKey)
         return token;
 };

@@ -28,7 +28,8 @@ export class TowerEventsController extends BaseController
         }
         catch(error)
         {
-            next(error);
+            // next(error);
+            return res.status(error.status).send(error.message);
         }
     }
 
@@ -40,7 +41,8 @@ export class TowerEventsController extends BaseController
         }
         catch(error)
         {
-            next(error);
+            // next(error);
+            return res.status(error.status).send(error.message);
         }
     }
 
@@ -52,7 +54,8 @@ export class TowerEventsController extends BaseController
         }
         catch(error)
         {
-            next(error);
+            // next(error);
+            return res.status(error.status).send(error.message);
         }
     }
 
@@ -64,7 +67,8 @@ export class TowerEventsController extends BaseController
         }
         catch(error)
         {
-            next(error);
+            // next(error);
+            return res.status(error.status).send(error.message);
         }
     }
 
@@ -80,7 +84,8 @@ export class TowerEventsController extends BaseController
         }
         catch(error)
         {
-            next(error);
+            // next(error);
+            return res.status(error.status).send(error.message);
         }
     }
 
@@ -94,7 +99,8 @@ export class TowerEventsController extends BaseController
         }
         catch(error)
         {
-            next(error);
+            // next(error);
+            return res.status(error.status).send(error.message);
         }
     }
 
@@ -106,7 +112,8 @@ export class TowerEventsController extends BaseController
         }
         catch(error)
         {
-            next(error);
+            // next(error);
+            return res.status(error.status).send(error.message);
         }
     }
 

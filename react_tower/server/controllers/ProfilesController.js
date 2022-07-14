@@ -14,8 +14,9 @@ export class ProfilesController extends BaseController {
       const profiles = await profileService.findProfiles(req.query.name, req.query.offset)
       res.send(profiles)
     } catch (error) {
-      next(error)
-    }
+    //   next(error)
+    return res.status(error.status).send(error.message);
+}
   }
 
   async getProfile(req, res, next) {
@@ -23,7 +24,8 @@ export class ProfilesController extends BaseController {
       const profile = await profileService.getProfileById(req.params.id)
       res.send(profile)
     } catch (error) {
-      next(error)
-    }
+    //   next(error)
+    return res.status(error.status).send(error.message);
+}
   }
 }

@@ -22,7 +22,8 @@ export class CommentsController extends BaseController
         }
         catch(error)
         {
-            next(error);
+            // next(error);
+            return res.status(error.status).send(error.message);
         }
     }
 
@@ -34,7 +35,8 @@ export class CommentsController extends BaseController
         }
         catch(error)
         {
-            next(error);
+            // next(error);
+            return res.status(error.status).send(error.message);
         }
     }
 

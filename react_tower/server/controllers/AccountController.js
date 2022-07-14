@@ -3,7 +3,6 @@ import { accountService } from '../services/AccountService'
 import { ticketsService } from '../services/TicketsService.js'
 import { towerEventsService } from '../services/TowerEventsService.js'
 import BaseController from '../utils/BaseController'
-import { logger } from '../utils/Logger.js'
 
 export class AccountController extends BaseController {
   constructor() {
@@ -26,21 +25,22 @@ export class AccountController extends BaseController {
         }
         catch(error)
         {
-            next(error);
+            // next(error);
+            return res.status(error.status).send(error.message);
         }
     }
 
     async getUserAccount(req, res, next) {
         try
         {
-            logger.log("logging in with:", { email: req.body.email, password: req.body.password })
             const account = await accountService.getAccount(req.body);
             const token = account.generateAuthToken();
             res.send(token);
         }
         catch (error)
         {
-            next(error)
+            // next(error);
+            return res.status(error.status).send(error.message);
         }
     }
 
@@ -52,7 +52,8 @@ export class AccountController extends BaseController {
         }
         catch(error)
         {
-            next(error);
+            // next(error);
+            return res.status(error.status).send(error.message);
         }
     }
   
@@ -64,7 +65,8 @@ export class AccountController extends BaseController {
      }
      catch(error)
      {
-         next(error);
-     }
+        // next(error);
+        return res.status(error.status).send(error.message);
+    }
   }
 }
