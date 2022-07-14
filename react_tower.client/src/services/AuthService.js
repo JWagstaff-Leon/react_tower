@@ -53,7 +53,13 @@ class AuthService
         const token = this.loadToken();
         if(token)
         {
-            return jwtDecode(token);
+            const account = jwtDecode(token);
+            if(account?.expiresAt < +Date.now())
+            {
+                this.logout();
+                return {};
+            }
+            return account;
         }
         else
         {

@@ -81,7 +81,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/event/:id" element={<TowerEventPage account={account} />} />
-                        {ProtectedRoute({ path:"/account", element: <AccountPage />, check: account?.id })}
+                        {ProtectedRoute({ path:"/account", element: <AccountPage />, check: account?.id, redirect: "/login", replace: false })}
                         {ProtectedRoute({ path: "/login", element: <LoginPage doLogin={handleLogin} />, check: !account?.id })}
                         {ProtectedRoute({ path: "/signup", element: <SignupPage doSignup={handleSignup} />, check: !account?.id })}
                         <Route path="*" element={<Navigate to="/" />} />
