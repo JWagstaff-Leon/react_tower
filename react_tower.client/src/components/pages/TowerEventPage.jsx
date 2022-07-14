@@ -31,7 +31,8 @@ function TowerEventPage({ account }) {
         }
         catch(error)
         {
-            console.error("[TowerEventPage.jsx > onAttend]", error.message);
+            logger.error("[TowerEventPage.jsx > onAttend]", error.response.data);
+            Pop.toast(error.response.data, "error");
         }
     }
 
@@ -55,7 +56,8 @@ function TowerEventPage({ account }) {
         }
         catch(error)
         {
-            console.error("[TowerEventPage.jsx > onUnattend]", error.message);
+            logger.error("[TowerEventPage.jsx > onUnattend]", error.response.data);
+            Pop.toast(error.response.data, "error");
         }
     }
 
@@ -68,7 +70,8 @@ function TowerEventPage({ account }) {
         }
         catch(error)
         {
-            logger.error("[TowerEventPage.jsx > doUpdateEvent]", error.message);
+            logger.error("[TowerEventPage.jsx > doUpdateEvent]", error.response.data);
+            Pop.toast(error.response.data, "error");
         }
     }
 
@@ -83,7 +86,8 @@ function TowerEventPage({ account }) {
         }
         catch(error)
         {
-            console.error("[TowerEventDetails.jsx > cancelEvent]", error.message);
+            logger.error("[TowerEventDetails.jsx > cancelEvent]", error.response.data);
+            Pop.toast(error.response.data, "error");
         }
     }
 
@@ -104,12 +108,13 @@ function TowerEventPage({ account }) {
 
     const userAttending = attendees && account?.id && !!attendees.find(a => a.accountId === account?.id);
 
-    const doAddComment = async (comment) => 
+    const doAddComment = async (body) => 
     {
-        const newComment = await commentsService.postComment({ body: comment, eventId: params.id });
+        const newComment = await commentsService.postComment({ body, eventId: params.id });
         const uComments = [...comments];
         uComments.unshift(newComment);
         setComments(uComments);
+        return newComment;
     }
 
     const doDeleteComment = async (id) =>
@@ -126,7 +131,8 @@ function TowerEventPage({ account }) {
         }
         catch(error)
         {
-            logger.error("[TowerEventPage.jsx > doDeleteComment]", error.message);
+            logger.error("[TowerEventPage.jsx > doDeleteComment]", error.response.data);
+            Pop.toast(error.response.data, "error");
         }
     }
 

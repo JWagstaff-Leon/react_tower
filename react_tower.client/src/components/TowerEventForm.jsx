@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { towerEventsService } from '../services/TowerEventsService.js';
+import { logger } from '../utils/Logger.js';
+import Pop from '../utils/Pop.js';
 const bootstrap = require("bootstrap");
 
 const TowerEventForm = (props) => {
@@ -98,7 +100,9 @@ const TowerEventForm = (props) => {
         }
         catch(error)
         {
-            console.error("[TowerEventForm.jsx > submitForm]", error.message);
+            logger.error("[TowerEventForm.jsx > submitForm]", error.response.data);
+            Pop.toast(error.response.data, "error");
+
         }
     }
 

@@ -42,7 +42,8 @@ const AccountPage = () => {
         }
         catch(error)
         {
-            logger.error("[AccountPage.jsx > doCancelTicket]", error.message);
+            logger.error("[AccountPage.jsx > doCancelTicket]", error.response.data);
+            Pop.toast(error.response.data, "error");
         }
     }
 

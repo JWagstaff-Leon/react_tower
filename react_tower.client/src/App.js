@@ -9,6 +9,8 @@ import SignupPage from "./components/pages/SignupPage.jsx";
 import { authService } from "./services/AuthService.js";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Navbar from "./components/Navbar.jsx";
+import { logger } from "./utils/Logger.js";
+import Pop from "./utils/Pop.js";
 
 function App() {
     const [account, setAccount] = useState(null);
@@ -28,10 +30,11 @@ function App() {
         }
         catch(error)
         {
-            console.error("[App.js > handleLogin]", error.message);
+            logger.error("[App.js > handleLogin]", error.response.data);
+            Pop.toast(error.response.data, "error");
         }
     }
-
+    
     const handleSignup = async (event) => {
         event.preventDefault();
         const email = event.target.email.value;
@@ -43,7 +46,8 @@ function App() {
         }
         catch(error)
         {
-            console.error("[App.js > handleSignup]", error.message);
+            logger.error("[App.js > handleSignup]", error.response.data);
+            Pop.toast(error.response.data, "error");
         }
     }
 

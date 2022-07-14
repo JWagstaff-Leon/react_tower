@@ -1,5 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
+import { logger } from '../utils/Logger.js';
+import Pop from '../utils/Pop.js';
 import Comment from './Comment.jsx';
 import CreateComment from './CreateComment.jsx';
 
@@ -23,12 +25,13 @@ const Comments = ({ comments, handleNewComment, handleDelete, account }) => {
         try
         {
             event.preventDefault();
-            handleNewComment(newComment.trim());
+            await handleNewComment(newComment.trim());
             setNewComment("");
         }
         catch(error)
         {
-            console.error("[Comments.jsx > doSubmitComment]", error.message);
+            logger.error("[Comments.jsx > doSubmitComment]", error.response.data);
+            Pop.toast(error.response.data, "error");
         }
     }
 
