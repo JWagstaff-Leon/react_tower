@@ -57,7 +57,6 @@ const AccountPage = () => {
                             <>
                             <div className="d-flex flex-column">
                                 <span className="text-success fs-3 no-select">Your Events</span>
-                                <span className="text-primary fs-2 px-xl-5">You have not made any events.</span>
                             </div>
                             <div className="row px-xl-5 mb-5">
                                 {userEvents.map(towerEvent => <div className="col-12 col-lg-6 col-xl-4 col-xxl-3" key={towerEvent.id} ><TowerEventCard key={towerEvent.id} towerEvent={towerEvent} /></div>)}
