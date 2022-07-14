@@ -5,14 +5,16 @@ import TowerEventForm from './TowerEventForm.jsx';
 const TowerEventDetails = ({ account, towerEvent, handleAttend, handleUnattend, handleCancelEvent, handleUpdateEvent, userAttending }) => {
     const attendOption = (() => {
         const cancelTicketButtonClass = "btn btn-" + (towerEvent?.capacity > 5 ? "warning" : "danger")
-        if(towerEvent?.isCanceled) return <div className="bg-danger fs-6 fw-bold text-dark text-center mt-2 p-2 rounded-3 w-100">Event Cancelled</div>
+        if(towerEvent?.isCanceled) return <div className="bg-danger fs-4 fw-bold text-dark text-center mt-2 p-2 rounded-3 w-100">Event Cancelled</div>
+        if(towerEvent?.startDate < +Date.now()) return <div className="bg-secondary lighten-25 fs-4 fw-bold text-center mt-2 p-2 rounded-3 w-100"><span className="text-dark">Event is over</span></div>
         if(userAttending) return <button className={cancelTicketButtonClass} onClick={handleUnattend}>Cancel Ticket</button>
-        if(towerEvent?.capacity <= 0) return <div className="bg-warning fs-6 fw-bold text-dark text-center mt-2 p-2 rounded-3 w-100">Event is Full</div>
+        if(towerEvent?.capacity <= 0) return <div className="bg-warning fs-4 fw-bold text-dark text-center mt-2 p-2 rounded-3 w-100">Event is Full</div>
         if(account?.id) return <button className="btn btn-warning" onClick={handleAttend}>Attend</button>
     })();
 
     const editButton =
         !towerEvent.isCanceled && 
+        towerEvent.startDate >= +Date.now() &&
         account?.id &&
         account.id === towerEvent?.creatorId &&
         <>
@@ -50,7 +52,7 @@ const TowerEventDetails = ({ account, towerEvent, handleAttend, handleUnattend, 
                                         <p className="text-light fs-5 text-shadow">{towerEvent?.description}</p>
                                     </div>
                                     <div className="d-flex justify-content-between">
-                                        {(towerEvent?.capacity > 0 || userAttending) && !towerEvent.isCanceled && <span className="fs-4 text-light text-shadow"><span className="text-info">{towerEvent?.capacity}</span> spot{towerEvent?.capacity != 1 ? "s" : ""} left</span>}
+                                        {(towerEvent?.capacity > 0 || userAttending) && !towerEvent.isCanceled && towerEvent.startDate >= +Date.now() && <span className="fs-4 text-light text-shadow"><span className="text-info">{towerEvent?.capacity}</span> spot{towerEvent?.capacity != 1 ? "s" : ""} left</span>}
                                         {attendOption}
                                     </div>
                                 </div>

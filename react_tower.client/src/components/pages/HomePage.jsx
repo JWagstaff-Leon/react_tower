@@ -12,7 +12,7 @@ const HomePage = () => {
 
     useEffect(() => {
         const mount = async() => {
-            const uTowerEvents = await towerEventsService.getAll();
+            const uTowerEvents = (await towerEventsService.getAll()).filter(te => te.startDate >= +Date.now());
             setTowerEvents(uTowerEvents);    
         };
         mount();

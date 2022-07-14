@@ -49,27 +49,38 @@ const AccountPage = () => {
 
     return (
         <div className="container">
+            <div className="flex-grow-1 d-flex flex-column align-items-center bg-dark fade-in">
+                <span className="text-primary fs-1 mt-3 border-bottom border-primary pb-1 no-select">Your Account Page</span>
+                    <div className="container my-5 px-3">
+                        {
+                            userEvents.length > 0 &&
+                            <>
+                            <div className="d-flex flex-column">
+                                <span className="text-success fs-3 no-select">Your Events</span>
+                                <span className="text-primary fs-2 px-xl-5">You have not made any events.</span>
+                            </div>
+                            <div className="row px-xl-5 mb-5">
+                                {userEvents.map(towerEvent => <div className="col-12 col-lg-6 col-xl-4 col-xxl-3" key={towerEvent.id} ><TowerEventCard key={towerEvent.id} towerEvent={towerEvent} /></div>)}
+                            </div>
+                            </>
+                        }
+                        <span className="text-success fs-3 pt-5 no-select">Upcoming Events</span>
+                        <div className="row flex-column">
+                            {userTickets?.length <= 0 && <span v-if="userTickets.length <= 0" className="text-primary fs-2 px-xl-5">You are not registered for any upcoming events.</span>}
+                            <div className="col-12 col-xl-8 offset-0 offset-xl-2">
+                                {userTickets?.filter(ticket => new Date(ticket.event.startDate) >= +Date.now()).map(ticket => <UserTicket ticket={ticket} key={ticket.id} handleCancel={doCancelTicket} />)}
+                            </div>
+                        </div>
 
-        <div className="flex-grow-1 d-flex flex-column align-items-center bg-dark fade-in">
-            <span className="text-primary fs-1 mt-3 border-bottom border-primary pb-1 no-select">Your Account Page</span>
-                <div className="container my-5 px-3">
-                    <div className="d-flex flex-column">
-                        <span className="text-success fs-3 no-select">Your Events</span>
-                        {userEvents.length <= 0 && <span className="text-primary fs-2 px-xl-5">You have not made any events.</span>}
-                    </div>
-                <div className="row px-xl-5 mb-5">
-                {userEvents.map(towerEvent => <div className="col-12 col-lg-6 col-xl-4 col-xxl-3" key={towerEvent.id} ><TowerEventCard key={towerEvent.id} towerEvent={towerEvent} /></div>)}
-            </div>
-            
-            <span className="text-success fs-3 pt-5 no-select">Upcoming Events</span>
-                <div className="row flex-column">
-                    {userTickets?.length <= 0 && <span v-if="userTickets.length <= 0" className="text-primary fs-2 px-xl-5">You are not registered for any upcoming events.</span>}
-                    <div className="col-12 col-xl-8 offset-0 offset-xl-2">
-                        {userTickets?.map(ticket => <UserTicket ticket={ticket} key={ticket.id} handleCancel={doCancelTicket} />)}
+                    <span className="text-success fs-3 pt-5 no-select">Past Events</span>
+                    <div className="row flex-column">
+                        {userTickets?.length <= 0 && <span v-if="userTickets.length <= 0" className="text-primary fs-2 px-xl-5">You are not registered for any upcoming events.</span>}
+                        <div className="col-12 col-xl-8 offset-0 offset-xl-2">
+                            {userTickets?.filter(ticket => new Date(ticket.event.startDate) <= +Date.now()).map(ticket => <UserTicket ticket={ticket} key={ticket.id} handleCancel={doCancelTicket} />)}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     );
 }

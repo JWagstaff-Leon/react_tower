@@ -60,7 +60,6 @@ main
 }
 
 /* #endregion */
-
 /* #region Tower Event Card */
 .tec
 {
@@ -86,7 +85,7 @@ main
     left: 0px;
     right: 0px;
     background-color: hsla(192, 0%, 20%, 0.65);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(5.5px);
     max-width: 100%
 }
 
@@ -96,8 +95,7 @@ main
 }
 
 /* #endregion */
-
-/* #region Tower Event Details */
+/* #region Tower Event Details */ 
 
 .ted
 {
@@ -165,7 +163,6 @@ main
 }
 
 /* #endregion */
-
 /* #region Attendees */
 
 .atn img
@@ -186,7 +183,6 @@ main
 }
 
 /* #endregion */
-
 /* #region Comments */
 
 .com img
@@ -211,7 +207,6 @@ main
 }
 
 /* #endregion */
-
 /* #region tickets */
 
 .ticket
@@ -272,7 +267,6 @@ main
 }
 
 /* #endregion */
-
 /* #region utility */
 
 form:invalid button[type="submit"] {

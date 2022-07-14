@@ -70,6 +70,8 @@ const TowerEventForm = (props) => {
             newStartDate.setDate(date);
             newStartDate.setHours(+newData.hour);
             newStartDate.setMinutes(+newData.minute);
+            newStartDate.setSeconds(0);
+            newStartDate.setMilliseconds(0);
             newData.startDate = newStartDate;
             
             if(newData.id)

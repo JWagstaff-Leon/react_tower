@@ -12,7 +12,10 @@ const UserTicket = ({ ticket, handleCancel }) => {
                     <span className="text-info fw-md-bold">{ticket.event.dateString}</span>
                 </div>
                 <div className="align-self-center mb-1 mb-md-3">
-                    <button className="btn btn-danger" onClick={() => handleCancel(ticket.id)}>Cancel Ticket</button>
+                    {
+                        new Date(ticket.event.startDate) >= Date.now() &&
+                        <button className="btn btn-danger" onClick={() => handleCancel(ticket.id)}>Cancel Ticket</button>
+                    }
                 </div>
                 </div>
                 <div className="ticket-circle-div">

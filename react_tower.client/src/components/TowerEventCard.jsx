@@ -5,6 +5,7 @@ const TowerEventCard = ({ towerEvent }) => {
     
     const capacityElem = (() => {
         if(towerEvent.isCanceled) return <div className="bg-danger fs-6 fw-bold text-dark text-center mt-2 p-1 rounded">Event Cancelled</div>
+        if(towerEvent.startDate < +Date.now()) return <div className="bg-secondary lighten-25s fs-6 fw-bold text-center mt-2 p-1 rounded"><span className="text-dark">Event is over</span></div>
         if(towerEvent.capacity <= 0) return <div className="bg-warning fs-6 fw-bold text-dark text-center mt-2 p-1 rounded">Event is Full</div>
         return <h2 className="text-light fs-6 align-self-end"><span className=" fw-bold text-primary fs-5">{towerEvent.capacity}</span> spot{towerEvent.capacity === 1 ? "" : "s"} left</h2>
     })(); //casually call an anonymous function the same line it's declared
