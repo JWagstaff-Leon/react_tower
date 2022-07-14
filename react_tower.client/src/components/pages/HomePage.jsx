@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { towerEventsService } from "../../services/TowerEventsService.js";
 import EventFilter from '../EventFilter.jsx';
-import Loading from '../Loading.jsx';
+import PageLoading from '../PageLoading.jsx';
 import TowerEventCard from '../TowerEventCard.jsx';
 
 const HomePage = () => {
@@ -38,7 +38,7 @@ const HomePage = () => {
 
     if(!towerEvents)
     {
-        return <Loading />;
+        return <PageLoading />;
     }
 
     const filters = [ "concert", "convention", "sport", "digital" ];

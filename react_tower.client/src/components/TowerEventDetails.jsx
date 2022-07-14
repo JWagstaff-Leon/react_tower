@@ -1,8 +1,9 @@
 import React from 'react';
+import LittleLoading from './LittleLoading.jsx';
 import Modal from './Modal.jsx';
 import TowerEventForm from './TowerEventForm.jsx';
 
-const TowerEventDetails = ({ account, towerEvent, handleAttend, handleUnattend, handleCancelEvent, handleUpdateEvent, userAttending }) => {
+const TowerEventDetails = ({ account, towerEvent, handleAttend, handleUnattend, handleCancelEvent, handleUpdateEvent, userAttending, submitting }) => {
     const attendOption = (() => {
         const cancelTicketButtonClass = "btn btn-" + (towerEvent?.capacity > 5 ? "warning" : "danger")
         if(towerEvent?.isCanceled) return <div className="bg-danger fs-4 fw-bold text-dark text-center mt-2 p-2 rounded-3 w-100">Event Cancelled</div>
@@ -53,7 +54,7 @@ const TowerEventDetails = ({ account, towerEvent, handleAttend, handleUnattend, 
                                     </div>
                                     <div className="d-flex justify-content-between">
                                         {(towerEvent?.capacity > 0 || userAttending) && !towerEvent.isCanceled && towerEvent.startDate >= +Date.now() && <span className="fs-4 text-light text-shadow"><span className="text-info">{towerEvent?.capacity}</span> spot{towerEvent?.capacity != 1 ? "s" : ""} left</span>}
-                                        {attendOption}
+                                        {!submitting ? attendOption : <LittleLoading />}
                                     </div>
                                 </div>
                             </div>

@@ -3,10 +3,13 @@ import { useNavigate } from 'react-router';
 import { towerEventsService } from '../services/TowerEventsService.js';
 import { logger } from '../utils/Logger.js';
 import Pop from '../utils/Pop.js';
+import PageLoading from './PageLoading.jsx';
 const bootstrap = require("bootstrap");
 
 const TowerEventForm = (props) => {
     const navigateTo = useNavigate();
+
+    const now = new Date();
 
     const [editable, setEditable] = useState({
         name: "",
@@ -15,10 +18,12 @@ const TowerEventForm = (props) => {
         description: "",
         location: "",
         capacity: "0",
-        startDate: "",
-        hour: "0",
-        minute: "0"
+        startDate: now.toISOString().substring(0, 10),
+        hour: now.getHours(),
+        minute: now.getMinutes()
     });
+
+    const [submitting, setSubmitting] = useState(false);
 
     const towerEvent = props.towerEvent;
 
@@ -58,6 +63,7 @@ const TowerEventForm = (props) => {
     {
         try
         {
+            setSubmitting(true);
             event.preventDefault();
             const newData = {...editable};
 
@@ -79,6 +85,7 @@ const TowerEventForm = (props) => {
                 // const uEvent = await towerEventsService.create(newData);
                 await props.handleUpdate(newData);
                 bootstrap.Modal.getOrCreateInstance(document.getElementById("edit-event-modal")).hide();
+                setTimeout(() => setSubmitting(false), 150)
             }
             else
             {
@@ -98,10 +105,12 @@ const TowerEventForm = (props) => {
                 }
                 setEditable(defaultState);
                 navigateTo("/event/" + newEvent.id);
+                setTimeout(() => setSubmitting(false), 150)
             }
         }
         catch(error)
         {
+            setSubmitting(false);
             logger.error("[TowerEventForm.jsx > submitForm]", error.response.data);
             Pop.toast(error.response.data, "error");
 
@@ -113,6 +122,11 @@ const TowerEventForm = (props) => {
         const update = {...editable};
         update[target.name] = target.value;
         setEditable(update);
+    }
+
+    if(submitting)
+    {
+        return <PageLoading />;
     }
 
     return (

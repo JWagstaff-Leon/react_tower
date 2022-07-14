@@ -6,8 +6,8 @@ import Comment from './Comment.jsx';
 import CreateComment from './CreateComment.jsx';
 
 const Comments = ({ comments, handleNewComment, handleDelete, account }) => {
-
     const [newComment, setNewComment] = useState("");
+    const [submitting, setSubmitting] = useState(false);
 
     const doChangeComment = ({ currentTarget: target }) =>
     {
@@ -24,12 +24,15 @@ const Comments = ({ comments, handleNewComment, handleDelete, account }) => {
     {
         try
         {
+            setSubmitting(true);
             event.preventDefault();
             await handleNewComment(newComment.trim());
             setNewComment("");
+            setSubmitting(false);
         }
         catch(error)
         {
+            setSubmitting(false);
             logger.error("[Comments.jsx > doSubmitComment]", error.response.data);
             Pop.toast(error.response.data, "error");
         }
@@ -41,7 +44,7 @@ const Comments = ({ comments, handleNewComment, handleDelete, account }) => {
                 <div className="com">
                     <span className="text-light no-select">What people are saying</span>
                     <div className="bg-secondary py-2 rounded px-5 d-flex flex-column">
-                        {account?.id && <CreateComment comment={newComment} handleChange={doChangeComment} handleSubmit={doSubmitComment}/>}
+                        {account?.id && <CreateComment comment={newComment} handleChange={doChangeComment} handleSubmit={doSubmitComment} submitting={submitting} />}
                         { comments?.length > 0 ?
                         comments?.map(comment => { return(
                             <Comment comment={comment} account={account} handleDelete={handleDelete} key={comment.id} />

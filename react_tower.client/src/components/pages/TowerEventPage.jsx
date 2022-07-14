@@ -6,7 +6,7 @@ import { towerEventsService } from '../../services/TowerEventsService.js';
 import Attendees from '../Attendees.jsx';
 import Comments from '../Comments.jsx';
 import TowerEventDetails from '../TowerEventDetails.jsx';
-import Loading from "../Loading.jsx";
+import PageLoading from "../PageLoading.jsx";
 import { logger } from '../../utils/Logger.js';
 import Pop from '../../utils/Pop.js';
 
@@ -14,6 +14,7 @@ function TowerEventPage({ account }) {
     const [towerEvent, setTowerEvent] = useState(null);
     const [attendees, setAttendees] = useState(null);
     const [comments, setComments] = useState(null);
+    const [submitting, setSubmitting] = useState(false);
 
     const params = useParams();
 
@@ -21,6 +22,7 @@ function TowerEventPage({ account }) {
     {
         try
         {
+            setSubmitting(true);
             const newAttendee = await ticketsService.attendEvent(params.id);
             const uTowerEvent = {...towerEvent};
             const uAttendees = [...attendees];
@@ -28,6 +30,7 @@ function TowerEventPage({ account }) {
             uAttendees.unshift(newAttendee);
             setTowerEvent(uTowerEvent);
             setAttendees(uAttendees);
+            setSubmitting(false);
         }
         catch(error)
         {
@@ -44,7 +47,8 @@ function TowerEventPage({ account }) {
             {
                 return;
             }
-
+            setSubmitting(true);
+            
             const ticketId = (attendees?.find(a => a.accountId === account.id)).id;
             const removed = await ticketsService.unattendEvent(ticketId);
             const uTowerEvent = {...towerEvent};
@@ -53,9 +57,11 @@ function TowerEventPage({ account }) {
             uAttendees = uAttendees.filter(a => a.id != removed.id);
             setTowerEvent(uTowerEvent);
             setAttendees(uAttendees);
+            setSubmitting(false);
         }
         catch(error)
         {
+            setSubmitting(false);
             logger.error("[TowerEventPage.jsx > onUnattend]", error.response.data);
             Pop.toast(error.response.data, "error");
         }
@@ -138,12 +144,12 @@ function TowerEventPage({ account }) {
 
     if(!towerEvent || !attendees || !comments)
     {
-        return <Loading />;
+        return <PageLoading />;
     }
 
     return (
         <div className="container bg-dark">
-            <TowerEventDetails towerEvent={towerEvent} handleAttend={doAttend} handleUnattend={doUnattend} userAttending={userAttending} handleUpdateEvent={doUpdateEvent} handleCancelEvent={doCancelEvent} account={account} />
+            <TowerEventDetails towerEvent={towerEvent} handleAttend={doAttend} handleUnattend={doUnattend} userAttending={userAttending} handleUpdateEvent={doUpdateEvent} handleCancelEvent={doCancelEvent} account={account}v submitting={submitting} />
             { //@ts-ignore
             !towerEvent?.isCanceled && <Attendees attendees={attendees} />}
             <Comments comments={comments} handleNewComment={doAddComment} handleDelete={doDeleteComment} account={account} />

@@ -5,7 +5,7 @@ import { ticketsService } from "../../services/TicketsService.js";
 import { towerEventsService } from "../../services/TowerEventsService.js";
 import { logger } from "../../utils/Logger.js";
 import Pop from "../../utils/Pop.js";
-import Loading from "../Loading.jsx";
+import PageLoading from "../PageLoading.jsx";
 import TowerEventCard from "../TowerEventCard.jsx";
 import UserTicket from "../UserTicket.jsx";
 
@@ -26,7 +26,7 @@ const AccountPage = () => {
 
     if(!userEvents || !userTickets)
     {
-        return <Loading />;
+        return <PageLoading />;
     }
 
     const doCancelTicket = async (ticketId) =>
